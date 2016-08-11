@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="windowNoTitle">true</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorHighlight">@color/white</item>
+        <item name="colorControlHighlight">@color/bright_sky_blue</item>
+    </style>
+
+    <style name="TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/warm_grey</item>
+        <item name="android:textSize">16dp</item>
+        <item name="colorControlNormal">@color/greyish</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorHighlight">@color/warm_grey</item>
+        <item name="colorControlHighlight">@color/red</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

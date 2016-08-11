@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/amethyst"
+    android:gravity="center"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mallardduckapps.kassa.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <LinearLayout
+        android:id="@+id/topIconLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:id="@+id/kassaIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:src="@drawable/kassa_logo_purple" />
+
+    </LinearLayout>
+
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_below="@+id/topIconLayout"
+        android:gravity="center">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/dailyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gunluk_logo"
+            android:background="@null"
+            app:layout_heightPercent="32%"
+            app:layout_marginPercent="3%"
+            app:layout_widthPercent="32%" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/homeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/dailyButton"
+            android:src="@drawable/ev_logo"
+            app:layout_heightPercent="32%"
+            app:layout_marginPercent="3%"
+            app:layout_widthPercent="32%" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/activityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dailyButton"
+            android:src="@drawable/etkinlik_logo"
+            app:layout_heightPercent="32%"
+            app:layout_marginPercent="3%"
+            app:layout_widthPercent="32%" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/workButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/homeButton"
+            android:layout_toRightOf="@+id/activityButton"
+            android:src="@drawable/is_logo"
+            app:layout_heightPercent="32%"
+            app:layout_marginPercent="3%"
+            app:layout_widthPercent="32%" />
+    </android.support.percent.PercentRelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

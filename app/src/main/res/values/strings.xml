@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Kassa</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_name">Ad Soyad</string>
+    <string name="prompt_phone">Cep Telefonu</string>
+    <string name="prompt_national_id">TC Kimlik No</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Şifre</string>
+    <string name="confirm_prompt_password">Şifre Tekrar</string>
+    <string name="action_sign_in">Giriş Yap</string>
+    <string name="action_fb_sign_in">Facebook ile Bağlan</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_register">ÜYE OL</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="send_mail">Send Email …</string>
+    <string name="no_mail_app">Email app is not present</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+</resources>

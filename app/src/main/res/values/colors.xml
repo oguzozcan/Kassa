@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#9461cb</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#ff8d03</color>
+    <!-- Color palette -->
+        <color name="bright_sky_blue">#0dbdff</color>
+        <color name="denim_blue">#3b5998</color>
+        <color name="amethyst">#9461cb</color>
+        <color name="gunmetal">#424c56</color>
+        <color name="amethyst_two">#9c72ca</color>
+        <color name="dark">#1d1d26</color>
+        <color name="steel">#767c92</color>
+        <color name="warm_grey">#9b9b9b</color>
+        <color name="white">#ffffff</color>
+        <color name="bright_sky_blue_two">#1dbbf7</color>
+        <color name="coral">#ff4242</color>
+        <color name="black">#333333</color>
+        <color name="gunmetal_two">#4e595d</color>
+        <color name="silver">#d2d2d4</color>
+        <color name="white_7">#11ffffff</color>
+        <color name="marigold">#ffc300</color>
+        <color name="greyish">#acacac</color>
+        <color name="white_two">#f2f2f2</color>
+        <color name="greyish_brown">#4a4a4a</color>
+        <color name="pinkish_grey">#c8c8c8</color>
+        <color name="tangerine">#ff8d03</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="black_overlay">#66000000</color> <!--%40 -->
+    <color name="darkenBackground">#33000000</color><!--%20 -->
+    <color name="thirtyPercentDark">#4D000000</color><!--%30 -->
+    <color name="blackish_sixtyfive">#A6000000</color><!-- %65 -->
+    <!-- Text styles -->
+    <!--<resources>-->
+        <!--<style name="TextStyle3">-->
+            <!--<item name="android:textSize">23sp</item>-->
+            <!--<item name="android:textColor">@color/white</item>-->
+            <!--<item name="android:letterSpacing">0.03</item>-->
+            <!--<item name="android:lineSpacingExtra">0.5sp</item>-->
+        <!--</style>-->
+
+        <!--<style name="TextStyle2">-->
+            <!--<item name="android:textSize">18.7sp</item>-->
+            <!--<item name="android:textColor">@color/white</item>-->
+            <!--<item name="android:letterSpacing">0.03</item>-->
+            <!--<item name="android:lineSpacingExtra">4.8sp</item>-->
+        <!--</style>-->
+
+        <!--<style name="TextStyle5">-->
+            <!--<item name="android:textSize">18.7sp</item>-->
+            <!--<item name="android:textColor">@color/warm_grey</item>-->
+            <!--<item name="android:letterSpacing">0.03</item>-->
+            <!--<item name="android:lineSpacingExtra">4.8sp</item>-->
+            <!--<item name="android:gravity">center_horizontal</item>-->
+        <!--</style>-->
+
+        <!--<style name="TextStyle4">-->
+            <!--<item name="android:textSize">12.5sp</item>-->
+            <!--<item name="android:textColor">@color/white</item>-->
+            <!--<item name="android:letterSpacing">0.03</item>-->
+            <!--<item name="android:lineSpacingExtra">11sp</item>-->
+        <!--</style>-->
+
+        <!--<style name="TextStyle">-->
+            <!--<item name="android:textSize">11.5sp</item>-->
+            <!--<item name="android:textColor">@color/gunmetal_two</item>-->
+            <!--<item name="android:lineSpacingExtra">2.9sp</item>-->
+        <!--</style>-->
+        <!--<resources>-->
+</resources>
