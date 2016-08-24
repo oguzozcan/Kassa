@@ -3,32 +3,40 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/anasayfa_icon"
+            android:id="@+id/nav_anasayfa"
+            android:icon="@drawable/selector_anasayfa"
             android:title="Anasayfa" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_durum"
             android:icon="@drawable/gelir_gider_icon"
             android:title="Durum" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_gelir"
+            android:icon="@drawable/gelir_icon"
+            android:title="Gelir" />
+
+        <item
+            android:id="@+id/nav_faturalar"
+            android:icon="@drawable/faturalar_icon"
+            android:title="Faturalar" />
+        <item
+            android:id="@+id/nav_kontaklar"
             android:icon="@drawable/kontaklar_icon"
             android:title="Kontaklar" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_bildirimler"
             android:icon="@drawable/bildirimler_icon"
             android:title="Bildirimler" />
-
         <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/nav_ayarlar"
             android:icon="@drawable/ayarlar_icon"
             android:title="Ayarlar" />
         <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/arama_icon"
+            android:id="@+id/nav_arama"
+            android:icon="@drawable/arama_icon_selected"
             android:title="Arama" />
         <item
-            android:id="@+id/nav_send"
+            android:id="@+id/nav_yardım"
             android:icon="@drawable/arama_icon"
             android:title="Yardım" />
     </group>

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.android.datetimepicker.date.DatePickerDialog;
 import com.mallardduckapps.kassa.busevents.ExpenseEvents;
 import com.mallardduckapps.kassa.objects.Expense;
+import com.mallardduckapps.kassa.utils.Constants;
 import com.mallardduckapps.kassa.utils.TimeUtils;
 import com.squareup.otto.Subscribe;
 
@@ -34,12 +35,15 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
     DateTime dateTime;
     DateTime lastDateTime;
     RelativeLayout loadingLayout;
+    public static final String CATEGORY_ID_KEY ="CATEGORY_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_expense);
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        selectedCategoryId = getIntent().getExtras().getInt(AddNewExpenseActivity.CATEGORY_ID_KEY, Constants.CATEGORY_ID_DAILY);
 
         getSupportActionBar().setTitle("Harcama Yarat");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -93,6 +97,29 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
                 }
             }
         });
+
+        initCategoryId(selectedCategoryId);
+    }
+
+    private void initCategoryId(int categoryId){
+        RadioButton daily = (RadioButton) findViewById(R.id.dailyCat);
+        RadioButton home = (RadioButton) findViewById(R.id.homeCat);
+        RadioButton activity = (RadioButton) findViewById(R.id.activityCat);
+        RadioButton work = (RadioButton) findViewById(R.id.workCat);
+        switch (categoryId){
+            case Constants.CATEGORY_ID_DAILY:
+                daily.setChecked(true);
+                break;
+            case Constants.CATEGORY_ID_HOME:
+                home.setChecked(true);
+                break;
+            case Constants.CATEGORY_ID_EVENT:
+                activity.setChecked(true);
+                break;
+            case Constants.CATEGORY_ID_WORK:
+                work.setChecked(true);
+                break;
+        }
     }
 
     private Expense isAnswersValid(){
@@ -134,23 +161,22 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
         switch(view.getId()) {
             case R.id.dailyCat:
                 if (checked){
-                    //TODO doesnt work with 0 ???
-                    selectedCategoryId = 1;
+                    selectedCategoryId = Constants.CATEGORY_ID_DAILY;
                     break;
                 }
             case R.id.homeCat:
                 if (checked){
-                    selectedCategoryId = 1;
+                    selectedCategoryId = Constants.CATEGORY_ID_HOME;
                     break;
                 }
             case R.id.activityCat:
                 if (checked){
-                    selectedCategoryId = 2;
+                    selectedCategoryId = Constants.CATEGORY_ID_EVENT;
                     break;
                 }
             case R.id.workCat:
                 if (checked){
-                    selectedCategoryId = 3;
+                    selectedCategoryId = Constants.CATEGORY_ID_WORK;
                     break;
                 }
         }

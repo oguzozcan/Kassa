@@ -47,7 +47,7 @@ public class KassaApp extends Application {
         Retrofit retrofit = createRetrofitObject(Constants.ROOT_URL);
         getBus().register(this);
         getBus().register(new AuthenticationService(getBus(), retrofitAuth.create(AuthRestApi.AuthenticationRestApi.class), retrofit.create(AuthRestApi.RegisterRestApi.class)));
-        getBus().register(new ExpenseService(this, retrofit.create(ExpenseRestApi.GetExpensesRestApi.class), retrofit.create(ExpenseRestApi.GetExpenseRestApi.class),
+        getBus().register(new ExpenseService(this, retrofit.create(ExpenseRestApi.GetExpensesRestApi.class), retrofit.create(ExpenseRestApi.GetExpensesByCategoryRestApi.class), retrofit.create(ExpenseRestApi.GetExpenseRestApi.class),
                 retrofit.create(ExpenseRestApi.PostExpenseRestApi.class), retrofit.create(ExpenseRestApi.DeleteExpenseRestApi.class)));
         getDataSaver();
         // OkHttpClient okHttpClient = new OkHttpClient();

@@ -43,6 +43,7 @@ public class ExpenseActivity extends BaseActivity implements ExpenseItemAdapter.
 
     private RecyclerView expenseListView;
     private RelativeLayout loadingLayout;
+    private int categoryId = -1;
 
     @Override
     protected void setTag() {
@@ -63,8 +64,23 @@ public class ExpenseActivity extends BaseActivity implements ExpenseItemAdapter.
         expenseListView.setHasFixedSize(true);
         setUpAnimationDecoratorHelper();
 
-        getSupportActionBar().setTitle("Günlük");
-
+        categoryId = getIntent().getExtras().getInt(AddNewExpenseActivity.CATEGORY_ID_KEY, 1);
+        String title = "";
+        switch (categoryId){
+            case Constants.CATEGORY_ID_DAILY:
+                title = getString(R.string.daily);
+                break;
+            case Constants.CATEGORY_ID_HOME:
+                title = getString(R.string.home);
+                break;
+            case Constants.CATEGORY_ID_EVENT:
+                title = getString(R.string.event);
+                break;
+            case Constants.CATEGORY_ID_WORK:
+                title = getString(R.string.work);
+                break;
+        }
+        getSupportActionBar().setTitle(title);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addNewExpense);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +88,7 @@ public class ExpenseActivity extends BaseActivity implements ExpenseItemAdapter.
 //                Snackbar.make(view, "Replace this", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
                 Intent intent = new Intent(ExpenseActivity.this, AddNewExpenseActivity.class);
+                intent.putExtra(AddNewExpenseActivity.CATEGORY_ID_KEY, categoryId);
                 startActivityForResult(intent, Constants.EXPENSE_CREATED);
             }
         });
@@ -81,7 +98,10 @@ public class ExpenseActivity extends BaseActivity implements ExpenseItemAdapter.
     protected void onStart() {
         super.onStart();
         app.getBus().register(this);
-        app.getBus().post(new ExpenseEvents.ExpenseListRequest());
+//        if(categoryId == -1)
+            app.getBus().post(new ExpenseEvents.ExpenseListRequest());
+//        else
+//            app.getBus().post(new ExpenseEvents.ExpenseListByCategoryRequest(categoryId));
         loadingLayout.setVisibility(View.VISIBLE);
     }
 
@@ -97,6 +117,13 @@ public class ExpenseActivity extends BaseActivity implements ExpenseItemAdapter.
         loadingLayout.setVisibility(View.GONE);
         setExpenseListView(expenseListResponse.getResponse());
     }
+
+//    @Subscribe
+//    public void onLoadExpensesByCategory(ExpenseEvents.ExpenseListByCategoryResponse expenseListResponse){
+//        Log.d(TAG, "ON LOAD EXPENSES");
+//        loadingLayout.setVisibility(View.GONE);
+//        setExpenseListView(expenseListResponse.getResponse());
+//    }
 
     @Subscribe
     public void onExpenseDeleted(ExpenseEvents.DeleteExpenseResponse expenseResponse){
@@ -127,15 +154,16 @@ public class ExpenseActivity extends BaseActivity implements ExpenseItemAdapter.
     protected void setExpenseListView(Response<ArrayList<Expense>> res) {
         if (res != null) {
             if (res.isSuccessful()) {
-                final ArrayList<Expense> expenseArrayList = res.body();
+                ArrayList<Expense> expenseArrayList = res.body();
+                final ArrayList<Expense> filteredExpenses = filterExpensesByCategory(expenseArrayList, categoryId);
                 Log.d(TAG, "SUCCESFUL " + expenseArrayList.size());
-                setTotalExpense(expenseArrayList);
+                setTotalExpense(filteredExpenses);
                 //callback.refreshJobCountTitle(jobArrayList.size(), sectionNumber);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(expenseArrayList.size() > 0 ){
-                            final ExpenseItemAdapter adapter = new ExpenseItemAdapter(ExpenseActivity.this, ExpenseActivity.this, expenseArrayList, expenseListView);
+                        if(filteredExpenses.size() > 0 ){
+                            final ExpenseItemAdapter adapter = new ExpenseItemAdapter(ExpenseActivity.this, ExpenseActivity.this, filteredExpenses, expenseListView);
                             if (expenseListView != null) {
                                 expenseListView.setAdapter(adapter);
                                 adapter.setUndoOn(true);
@@ -155,6 +183,16 @@ public class ExpenseActivity extends BaseActivity implements ExpenseItemAdapter.
             app.getBus().post(new ApiErrorEvent(0, "Problem!!!", true));
 
         }
+    }
+
+    private ArrayList<Expense> filterExpensesByCategory(ArrayList<Expense> expenseArrayList, int categoryId){
+        ArrayList<Expense> expenses = new ArrayList<>();
+        for(Expense expense : expenseArrayList){
+            if(expense.getCategoryId() == categoryId){
+                expenses.add(expense);
+            }
+        }
+        return expenses;
     }
 
     private void setTotalExpense(ArrayList<Expense> expenseArrayList){

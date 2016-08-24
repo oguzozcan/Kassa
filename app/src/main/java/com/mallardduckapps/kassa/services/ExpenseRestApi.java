@@ -23,13 +23,19 @@ public class ExpenseRestApi {
         Call<ArrayList<Expense>> getExpenseList(@Header("Authorization") String token, @Header("client_info") String clientInfo);
     }
 
+    //TODO no endpoint like this
+    public interface GetExpensesByCategoryRestApi{
+        @GET(Constants.EXPENSE + "/" + "{categoryId}")
+        Call<ArrayList<Expense>> getExpenseListByCategoryId(@Header("Authorization") String token, @Header("client_info") String clientInfo, @Path("categoryId") int categoryId);
+    }
+
     public interface PostExpenseRestApi{
         @POST(Constants.EXPENSE)
         Call<Expense> onExpenseCreated(@Header("Authorization") String token, @Header("client_info") String clientInfo, @Body Expense expenseJsonBody);
     }
 
     public interface GetExpenseRestApi{
-        @GET(Constants.EXPENSE + "{expenseId}")
+        @GET(Constants.EXPENSE +"/"+ "{expenseId}")
         Call<Expense> getExpenseWithId(@Header("Authorization") String token, @Header("client_info") String clientInfo, @Path("expenseId") long expenseId);
     }
 

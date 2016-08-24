@@ -16,6 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import com.mallardduckapps.kassa.utils.Constants;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -32,11 +35,11 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().hide();
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        getSupportActionBar().hide();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -47,14 +50,12 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
-        toggle.setDrawerIndicatorEnabled(true);
-        drawer.setDrawerListener(toggle);
-
-        toggle.syncState();
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        toggle.setDrawerIndicatorEnabled(true);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -64,7 +65,50 @@ public class MainActivity extends BaseActivity
             @Override
             public void onClick(View view) {
                 Intent expenseIntent = new Intent(MainActivity.this, ExpenseActivity.class);
+                expenseIntent.putExtra(AddNewExpenseActivity.CATEGORY_ID_KEY, Constants.CATEGORY_ID_DAILY);
                 startActivity(expenseIntent);
+            }
+        });
+
+        CircleImageView homeButton = (CircleImageView) findViewById(R.id.homeButton);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent expenseIntent = new Intent(MainActivity.this, ExpenseActivity.class);
+                expenseIntent.putExtra(AddNewExpenseActivity.CATEGORY_ID_KEY, Constants.CATEGORY_ID_HOME);
+                startActivity(expenseIntent);
+            }
+        });
+
+        CircleImageView eventButton = (CircleImageView) findViewById(R.id.activityButton);
+        eventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent expenseIntent = new Intent(MainActivity.this, ExpenseActivity.class);
+                expenseIntent.putExtra(AddNewExpenseActivity.CATEGORY_ID_KEY, Constants.CATEGORY_ID_EVENT);
+                startActivity(expenseIntent);
+            }
+        });
+
+        CircleImageView workButton = (CircleImageView) findViewById(R.id.workButton);
+        workButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent expenseIntent = new Intent(MainActivity.this, ExpenseActivity.class);
+                expenseIntent.putExtra(AddNewExpenseActivity.CATEGORY_ID_KEY, Constants.CATEGORY_ID_WORK);
+                startActivity(expenseIntent);
+            }
+        });
+
+        ImageView hamburgerIcon = (ImageView) findViewById(R.id.hamburgerIcon);
+        hamburgerIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                }else{
+                    drawer.openDrawer(GravityCompat.START);
+                }
             }
         });
     }
@@ -124,17 +168,23 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_anasayfa) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_durum) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_gelir) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_faturalar) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_kontaklar) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_bildirimler) {
+
+        }else if (id == R.id.nav_ayarlar) {
+
+        }else if (id == R.id.nav_arama) {
+
+        }else if (id == R.id.nav_yardım) {
 
         }
 

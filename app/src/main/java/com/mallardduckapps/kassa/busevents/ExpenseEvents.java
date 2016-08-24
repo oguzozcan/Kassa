@@ -26,6 +26,30 @@ public class ExpenseEvents {
         }
     }
 
+    public static class ExpenseListByCategoryRequest{
+        private int categoryId;
+
+        public ExpenseListByCategoryRequest(int categoryId) {
+            this.categoryId = categoryId;
+        }
+
+        public int getCategoryId() {
+            return categoryId;
+        }
+    }
+
+    public static class ExpenseListByCategoryResponse{
+        private Response<ArrayList<Expense>> response;
+
+        public ExpenseListByCategoryResponse(Response<ArrayList<Expense>> response) {
+            this.response = response;
+        }
+
+        public Response<ArrayList<Expense>> getResponse() {
+            return response;
+        }
+    }
+
     public static class PostExpenseRequest{
         private final Expense expense;
 

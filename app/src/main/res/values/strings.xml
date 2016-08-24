@@ -28,4 +28,9 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="daily">Günlük</string>
+    <string name="home">Ev</string>
+    <string name="event">Etkinlik</string>
+    <string name="work">İş</string>
+
 </resources>

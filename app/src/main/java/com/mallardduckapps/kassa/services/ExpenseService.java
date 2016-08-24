@@ -25,16 +25,18 @@ public class ExpenseService {
     private final Bus mBus;
     private final KassaApp app;
     private ExpenseRestApi.GetExpensesRestApi getExpenseListRestApi;
+    private ExpenseRestApi.GetExpensesByCategoryRestApi getExpenseListByCatRestApi;
     private ExpenseRestApi.GetExpenseRestApi getExpenseRestApi;
     private ExpenseRestApi.DeleteExpenseRestApi deleteExpenseRestApi;
     private ExpenseRestApi.PostExpenseRestApi postExpenseRestApi;
     private final String TAG = "ExpenseService";
 
-    public ExpenseService(KassaApp app, ExpenseRestApi.GetExpensesRestApi getExpenseListRestApi, ExpenseRestApi.GetExpenseRestApi getExpenseRestApi,
+    public ExpenseService(KassaApp app, ExpenseRestApi.GetExpensesRestApi getExpenseListRestApi,ExpenseRestApi.GetExpensesByCategoryRestApi getExpenseListByCatRestApi, ExpenseRestApi.GetExpenseRestApi getExpenseRestApi,
                           ExpenseRestApi.PostExpenseRestApi postExpenseRestApi, ExpenseRestApi.DeleteExpenseRestApi deleteExpenseRestApi){
         this.app = app;
         this.mBus = app.getBus();
         this.getExpenseListRestApi = getExpenseListRestApi;
+        this.getExpenseListByCatRestApi = getExpenseListByCatRestApi;
         this.getExpenseRestApi = getExpenseRestApi;
         this.postExpenseRestApi = postExpenseRestApi;
         this.deleteExpenseRestApi = deleteExpenseRestApi;
@@ -54,6 +56,35 @@ public class ExpenseService {
                 Log.d(TAG, "ON RESPONSE expenseList: " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message() + "- url: " + call.request().url());
                 if (response.isSuccessful()) {
                     mBus.post(new ExpenseEvents.ExpenseListResponse(response));
+                } else {
+                    //mBus.post(new AuthResponse(null, KassaUtils.getErrorMessage(response)));
+                    mBus.post(new ApiErrorEvent(response.code(), KassaUtils.getErrorMessage(response), false));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Expense>> call, Throwable t) {
+                Log.d(TAG, "ON FAILURE: " + t.getMessage());
+                t.printStackTrace();
+                mBus.post(new ApiErrorEvent());
+            }
+        });
+    }
+
+    @Subscribe
+    public void getExpenseListByCategory(final ExpenseEvents.ExpenseListByCategoryRequest event){
+        String token = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
+        Log.d(TAG, "GET EXPENSE LIST: token:" + token);
+        if(token.equals("")){
+            Log.d(TAG, "PROBLEM !!!! Token NULL" );
+            return;
+        }
+        getExpenseListByCatRestApi.getExpenseListByCategoryId(token, "", event.getCategoryId()).enqueue(new Callback<ArrayList<Expense>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Expense>> call, Response<ArrayList<Expense>> response) {
+                Log.d(TAG, "ON RESPONSE expenseList by cat: " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message() + "- url: " + call.request().url());
+                if (response.isSuccessful()) {
+                    mBus.post(new ExpenseEvents.ExpenseListByCategoryResponse(response));
                 } else {
                     //mBus.post(new AuthResponse(null, KassaUtils.getErrorMessage(response)));
                     mBus.post(new ApiErrorEvent(response.code(), KassaUtils.getErrorMessage(response), false));
@@ -124,5 +155,4 @@ public class ExpenseService {
             }
         });
     }
-
 }

@@ -15,6 +15,11 @@ public class Constants {
     public final static String USERNAME = "USERNAME";
     public final static String USERID = "USER_ID";
 
+    public final static int CATEGORY_ID_DAILY = 1;
+    public final static int CATEGORY_ID_WORK = 2;
+    public final static int CATEGORY_ID_HOME = 3;
+    public final static int CATEGORY_ID_EVENT = 4;
+
     //PERMISSIONS
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
     public static final int MY_PERMISSIONS_READ_CONTACTS = 2;
