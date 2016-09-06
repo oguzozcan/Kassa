@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:measureAllChildren="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioGroup
+                android:id="@+id/typeRadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal">
+                <!--android:weightSum="8"-->
+                <RadioButton
+                    android:id="@+id/hobbyType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:checked="true"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_hobby"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Hobi"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/personalCareType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_personalcare"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Ev"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/groceryType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_grocery"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Manav"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/videogameType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_videogame"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Oyun"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/transportationType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_transportation"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Ulaşım"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/shoppingType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_shopping"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Alışveriş"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/electronicType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_electronics"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Elektronik"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/otherType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_other"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Diğer"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+            </RadioGroup>
+        </LinearLayout>
+    </HorizontalScrollView>
+</merge>

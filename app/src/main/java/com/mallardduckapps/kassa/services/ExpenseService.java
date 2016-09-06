@@ -28,11 +28,13 @@ public class ExpenseService {
     private ExpenseRestApi.GetExpensesByCategoryRestApi getExpenseListByCatRestApi;
     private ExpenseRestApi.GetExpenseRestApi getExpenseRestApi;
     private ExpenseRestApi.DeleteExpenseRestApi deleteExpenseRestApi;
+    private ExpenseRestApi.UpdateExpenseRestApi updateExpenseRestApi;
     private ExpenseRestApi.PostExpenseRestApi postExpenseRestApi;
     private final String TAG = "ExpenseService";
 
-    public ExpenseService(KassaApp app, ExpenseRestApi.GetExpensesRestApi getExpenseListRestApi,ExpenseRestApi.GetExpensesByCategoryRestApi getExpenseListByCatRestApi, ExpenseRestApi.GetExpenseRestApi getExpenseRestApi,
-                          ExpenseRestApi.PostExpenseRestApi postExpenseRestApi, ExpenseRestApi.DeleteExpenseRestApi deleteExpenseRestApi){
+    public ExpenseService(KassaApp app, ExpenseRestApi.GetExpensesRestApi getExpenseListRestApi,ExpenseRestApi.GetExpensesByCategoryRestApi getExpenseListByCatRestApi,
+                          ExpenseRestApi.GetExpenseRestApi getExpenseRestApi, ExpenseRestApi.PostExpenseRestApi postExpenseRestApi,
+                          ExpenseRestApi.DeleteExpenseRestApi deleteExpenseRestApi, ExpenseRestApi.UpdateExpenseRestApi updateExpenseRestApi){
         this.app = app;
         this.mBus = app.getBus();
         this.getExpenseListRestApi = getExpenseListRestApi;
@@ -40,6 +42,7 @@ public class ExpenseService {
         this.getExpenseRestApi = getExpenseRestApi;
         this.postExpenseRestApi = postExpenseRestApi;
         this.deleteExpenseRestApi = deleteExpenseRestApi;
+        this.updateExpenseRestApi = updateExpenseRestApi;
     }
 
     @Subscribe
@@ -110,7 +113,7 @@ public class ExpenseService {
         postExpenseRestApi.onExpenseCreated(token, "", event.getExpense()).enqueue(new Callback<Expense>() {
             @Override
             public void onResponse(Call<Expense> call, Response<Expense> response) {
-                Log.d(TAG, "ON RESPONSE postexpense: " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
+                Log.d(TAG, "ON RESPONSE postexpense: " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message() + "- url: " + call.request().url());
                 if (response.isSuccessful()) {
                     mBus.post(new ExpenseEvents.PostExpenseResponse(response));
                 } else {
@@ -138,7 +141,7 @@ public class ExpenseService {
         deleteExpenseRestApi.onExpenseDeleted(token, "", event.getExpenseId()).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.d(TAG, "ON RESPONSE delete expense: " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());
+                Log.d(TAG, "ON RESPONSE delete expense: " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message() + "- url: " + call.request().url());
                 if (response.isSuccessful()) {
                     mBus.post(new ExpenseEvents.DeleteExpenseResponse(response));
                 } else {
@@ -149,6 +152,34 @@ public class ExpenseService {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                Log.d(TAG, "ON FAILURE: " + t.getMessage());
+                t.printStackTrace();
+                mBus.post(new ApiErrorEvent());
+            }
+        });
+    }
+
+    @Subscribe
+    public void updateExpense(final ExpenseEvents.UpdateExpenseRequest event){
+        String token = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
+        if(token.equals("")){
+            Log.d(TAG, "PROBLEM !!!! Token NULL" );
+            return;
+        }
+        updateExpenseRestApi.onExpenseUpdated(token, "",event.getExpenseId(), event.getExpense()).enqueue(new Callback<Expense>() {
+            @Override
+            public void onResponse(Call<Expense> call, Response<Expense> response) {
+                Log.d(TAG, "ON RESPONSE update expense: " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message() + "- url: " + call.request().url());
+                if (response.isSuccessful()) {
+                    mBus.post(new ExpenseEvents.UpdateExpenseResponse(response));
+                } else {
+                    //mBus.post(new AuthResponse(null, KassaUtils.getErrorMessage(response)));
+                    mBus.post(new ApiErrorEvent(response.code(), KassaUtils.getErrorMessage(response), false));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Expense> call, Throwable t) {
                 Log.d(TAG, "ON FAILURE: " + t.getMessage());
                 t.printStackTrace();
                 mBus.post(new ApiErrorEvent());

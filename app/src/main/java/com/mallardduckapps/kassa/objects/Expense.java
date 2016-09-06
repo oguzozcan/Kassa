@@ -1,5 +1,8 @@
 package com.mallardduckapps.kassa.objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -7,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by oguzemreozcan on 28/07/16.
  */
-public class Expense {
+public class Expense implements Parcelable {
 
     @SerializedName("Id")
     private int id;
@@ -31,8 +34,8 @@ public class Expense {
     private int subCategoryId;
     @SerializedName("PhotoUrl")
     private String photoUrl;
-    @SerializedName("TypeId")
-    private int typeId;
+//    @SerializedName("TypeId")
+//    private int typeId;
     @SerializedName("CreateDate")
     private String createDate;
     @SerializedName("ExpenseRecurringType")
@@ -128,13 +131,13 @@ public class Expense {
         this.photoUrl = photoUrl;
     }
 
-    public int getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
-    }
+//    public int getTypeId() {
+//        return typeId;
+//    }
+//
+//    public void setTypeId(int typeId) {
+//        this.typeId = typeId;
+//    }
 
     public String getCreateDate() {
         return createDate;
@@ -159,4 +162,62 @@ public class Expense {
     public void setCoOwners(ArrayList<CoOwner> coOwners) {
         this.coOwners = coOwners;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.userId);
+        dest.writeString(this.name);
+        dest.writeDouble(this.price);
+        dest.writeInt(this.currencyId);
+        dest.writeByte(this.isRecurring ? (byte) 1 : (byte) 0);
+        dest.writeString(this.dueDate);
+        dest.writeString(this.reminderDate);
+        dest.writeInt(this.categoryId);
+        dest.writeInt(this.subCategoryId);
+        dest.writeString(this.photoUrl);
+//        dest.writeInt(this.typeId);
+        dest.writeString(this.createDate);
+        dest.writeInt(this.recurringType);
+        dest.writeList(this.coOwners);
+    }
+
+    public Expense() {
+    }
+
+    protected Expense(Parcel in) {
+        this.id = in.readInt();
+        this.userId = in.readInt();
+        this.name = in.readString();
+        this.price = in.readDouble();
+        this.currencyId = in.readInt();
+        this.isRecurring = in.readByte() != 0;
+        this.dueDate = in.readString();
+        this.reminderDate = in.readString();
+        this.categoryId = in.readInt();
+        this.subCategoryId = in.readInt();
+        this.photoUrl = in.readString();
+//        this.typeId = in.readInt();
+        this.createDate = in.readString();
+        this.recurringType = in.readInt();
+        this.coOwners = new ArrayList<CoOwner>();
+        in.readList(this.coOwners, CoOwner.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Expense> CREATOR = new Parcelable.Creator<Expense>() {
+        @Override
+        public Expense createFromParcel(Parcel source) {
+            return new Expense(source);
+        }
+
+        @Override
+        public Expense[] newArray(int size) {
+            return new Expense[size];
+        }
+    };
 }

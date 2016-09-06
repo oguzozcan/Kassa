@@ -2,6 +2,7 @@ package com.mallardduckapps.kassa.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -15,8 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mallardduckapps.kassa.AddNewExpenseActivity;
 import com.mallardduckapps.kassa.R;
 import com.mallardduckapps.kassa.objects.Expense;
+import com.mallardduckapps.kassa.utils.Constants;
 import com.mallardduckapps.kassa.utils.TimeUtils;
 
 import java.lang.ref.WeakReference;
@@ -244,18 +247,11 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
             final Expense event = getItem(itemPosition);
             Activity act = activity.get();
             if (act != null && event != null) {
-//            Intent jobIntent = new Intent(act, OpportunityActivity.class);
-//            String date = TimeUtils.convertDateTimeFormat(TimeUtils.dfISO, TimeUtils.dtfOutWOYear, event.getAppointmentDate());//event.getAppointmentDate();
-//            jobIntent.putExtra(JobEvents.PARAM_JOB_ID, event.getJobId());
-//            jobIntent.putExtra(JobEvents.PARAM_SERVICE_ID, event.getServiceId());
-//            jobIntent.putExtra(JobEvents.PARAM_SERVICE_NAME, event.getServiceName());
-//            jobIntent.putExtra(JobEvents.PARAM_CUSTOMER_NAME, event.getCustomerFullName());
-//            jobIntent.putExtra(JobEvents.PARAM_QUOTE_REMAINING_TIME, event.getJobQuoteExpireDate());
-//            jobIntent.putExtra(JobEvents.PARAM_PROVIDER_PROFILE_ID, event.getProfileId());
-//            Log.d(TAG, "PROVIDER PROFILE ID: " + event.getProfileId() + " - sectionNumber : " + sectionNumber + "EVENT DATE: " + date);
-//            jobIntent.putExtra(JobEvents.PARAM_JOB_DATE, date);
-//            String addressTxt = event.getJobDistrict() + " " + event.getAddress() + "\n" + event.getJobCity() + ", " + event.getJobState();
-//            jobIntent.putExtra(JobEvents.PARAM_JOB_ADDRESS, addressTxt);
+                Intent intent = new Intent(act, AddNewExpenseActivity.class);
+                intent.putExtra(AddNewExpenseActivity.CATEGORY_ID_KEY, event.getCategoryId());
+                intent.putExtra(AddNewExpenseActivity.POST_OR_UPDATE_KEY, false);
+                intent.putExtra(AddNewExpenseActivity.EXPENSE_KEY, event);
+                act.startActivityForResult(intent, Constants.EXPENSE_UPDATED);
 //            act.startActivityForResult(jobIntent, Constants.UPDATE_JOBS_PAGE);
 //            BaseActivity.setTranslateAnimation(act);
             }

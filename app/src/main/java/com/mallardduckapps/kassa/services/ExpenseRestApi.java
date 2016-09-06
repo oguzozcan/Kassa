@@ -10,6 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -35,12 +36,17 @@ public class ExpenseRestApi {
     }
 
     public interface GetExpenseRestApi{
-        @GET(Constants.EXPENSE +"/"+ "{expenseId}")
+        @GET(Constants.EXPENSE + "/" + "{expenseId}")
         Call<Expense> getExpenseWithId(@Header("Authorization") String token, @Header("client_info") String clientInfo, @Path("expenseId") long expenseId);
     }
 
+    public interface UpdateExpenseRestApi{
+        @PATCH(Constants.EXPENSE + "/" + "{expenseId}")
+        Call<Expense> onExpenseUpdated(@Header("Authorization") String token, @Header("client_info") String clientInfo, @Path("expenseId") long expenseId, @Body Expense expenseJsonBody);
+    }
+
     public interface DeleteExpenseRestApi{
-        @DELETE(Constants.EXPENSE + "{expenseId}")
+        @DELETE(Constants.EXPENSE + "/"+ "{expenseId}")
         Call<String> onExpenseDeleted(@Header("Authorization") String token, @Header("client_info") String clientInfo, @Path("expenseId") long expenseId);
     }
 

@@ -11,16 +11,14 @@ public class RegisterUser {
     private String name;
     @SerializedName("LastName")
     private String surname;
-    @SerializedName("NationalIdentityNumber")
-    private String nationalId;
-    @SerializedName("PhoneNumber")
-    private String phoneNumber;
     @SerializedName("EmailAddress")
     private String email;
-    @SerializedName("Password")
-    private String pass;
-    @SerializedName("ConfirmPassword")
-    private String confirmPass;
+
+
+//    @SerializedName("Password")
+//    private String pass;
+//    @SerializedName("ConfirmPassword")
+//    private String confirmPass;
 
     public String getName() {
         return name;
@@ -38,21 +36,21 @@ public class RegisterUser {
         this.surname = surname;
     }
 
-    public String getNationalId() {
-        return nationalId;
-    }
-
-    public void setNationalId(String nationalId) {
-        this.nationalId = nationalId;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+//    public String getNationalId() {
+//        return nationalId;
+//    }
+//
+//    public void setNationalId(String nationalId) {
+//        this.nationalId = nationalId;
+//    }
+//
+//    public String getPhoneNumber() {
+//        return phoneNumber;
+//    }
+//
+//    public void setPhoneNumber(String phoneNumber) {
+//        this.phoneNumber = phoneNumber;
+//    }
 
     public String getEmail() {
         return email;
@@ -62,19 +60,19 @@ public class RegisterUser {
         this.email = email;
     }
 
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    public String getConfirmPass() {
-        return confirmPass;
-    }
-
-    public void setConfirmPass(String confirmPass) {
-        this.confirmPass = confirmPass;
-    }
+//    public String getPass() {
+//        return pass;
+//    }
+//
+//    public void setPass(String pass) {
+//        this.pass = pass;
+//    }
+//
+//    public String getConfirmPass() {
+//        return confirmPass;
+//    }
+//
+//    public void setConfirmPass(String confirmPass) {
+//        this.confirmPass = confirmPass;
+//    }
 }

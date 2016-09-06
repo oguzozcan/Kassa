@@ -12,20 +12,19 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mallardduckapps.kassa.busevents.AuthEvents;
@@ -45,11 +44,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class RegisterActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private AutoCompleteTextView mEmailView;
-    private EditText mTcIdView;
-    private EditText mPhoneView;
     private EditText mNameView;
-    private EditText mPasswordView;
-    private EditText mConfirmPasswordView;
+    private EditText mLastNameView;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -66,21 +62,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mConfirmPasswordView = (EditText) findViewById(R.id.confirmPassword);
         mNameView = (EditText) findViewById(R.id.name);
-        mPhoneView = (EditText) findViewById(R.id.phone);
-        mTcIdView = (EditText) findViewById(R.id.tcId);
-        mConfirmPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptRegister();
-                    return true;
-                }
-                return false;
-            }
-        });
+        mLastNameView = (EditText) findViewById(R.id.surname) ;
 
         Button mEmailSignInButton = (Button) findViewById(R.id.register_button);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -103,11 +86,17 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 //        showProgress(true);
-        String accessToken = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
-        passToMainActivity(accessToken);
-
+//        String accessToken = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
+//        passToMainActivity(accessToken);
         getSupportActionBar().hide();
 
+        RelativeLayout addImageLayout = (RelativeLayout) findViewById(R.id.addImageLayout);
+        addImageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -177,18 +166,12 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         hideKeyboard();
         // Reset errors.
         mEmailView.setError(null);
-        mPasswordView.setError(null);
-        mPhoneView.setError(null);
         mNameView.setError(null);
-        mTcIdView.setError(null);
-        mConfirmPasswordView.setError(null);
+        mLastNameView.setError(null);
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-        String phone = mPhoneView.getText().toString();
         String name = mNameView.getText().toString();
-        String tcId = mTcIdView.getText().toString();
-        String confirmPassword = mConfirmPasswordView.getText().toString();
+        String surname = mLastNameView.getText().toString();
         boolean cancel = false;
         View focusView = null;
 
@@ -198,28 +181,9 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             cancel = true;
         }
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        if (!confirmPassword.equals(password)) {
-            mConfirmPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mConfirmPasswordView;
-            cancel = true;
-        }
-
-        if (!TextUtils.isEmpty(phone) && !isPhoneValid(phone)) {
-            mPhoneView.setError(getString(R.string.error_field_required));
-            focusView = mPhoneView;
-            cancel = true;
-        }
-
-        if (!TextUtils.isEmpty(tcId) && !isTcIdValid(tcId)) {
-            mTcIdView.setError(getString(R.string.error_field_required));
-            focusView = mTcIdView;
+        if (TextUtils.isEmpty(surname)) {
+            mLastNameView.setError(getString(R.string.error_field_required));
+            focusView = mLastNameView;
             cancel = true;
         }
 
@@ -242,46 +206,17 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            Log.d(TAG, "SEND AUTH REQUEST email: " + email + " - pass: " + password);
+            Log.d(TAG, "SEND Register REQUEST email: " + email);
             RegisterUser registerUser = new RegisterUser();
-            String[] nameArray = name.split("\\ ");
-            if (nameArray.length == 2) {
-                registerUser.setName(nameArray[0]);
-                registerUser.setSurname(nameArray[1]);
-            } else if (nameArray.length > 2) {
-                String nameTmp = nameArray[0];
-                for (int i = 1; i < nameArray.length - 1; i++) {
-                    nameTmp += " " + nameArray[1];
-                }
-                registerUser.setName(nameTmp);
-                registerUser.setSurname(nameArray[nameArray.length - 1]);
-            }
+            registerUser.setName(name);
+            registerUser.setSurname(surname);
             registerUser.setEmail(email);
-            registerUser.setPhoneNumber(phone);
-            registerUser.setNationalId(tcId);
-            registerUser.setPass(password);
-            registerUser.setConfirmPass(confirmPassword);
             app.getBus().post(new AuthEvents.RegisterRequest(registerUser));
-            //app.getBus().post(new AuthEvents.AuthRequest(email, password, "password", Constants.CLIENT_ID));
-//            mAuthTask = new UserLoginTask(email, password);
-//            mAuthTask.execute((Void) null);
         }
     }
 
     private boolean isEmailValid(String email) {
         return KassaUtils.EMAIL_PATTERN.matcher(email).matches();//email.contains("@") && email.trim().length() > 4;
-    }
-
-    private boolean isPasswordValid(String password) {
-        return password.length() > 5;
-    }
-
-    private boolean isPhoneValid(String phone) {
-        return phone.length() > 9;
-    }
-
-    private boolean isTcIdValid(String id) {
-        return id.length() > 10;
     }
 
     private void hideKeyboard() {
@@ -440,15 +375,15 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 User user = response.getUser().body();
                 //TODO what to do with user
                 if (user != null) {
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+                    String accessToken = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
+                    passToMainActivity(accessToken);
+//                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
                 }
             }
         }
     }
-
-
 }
 
 

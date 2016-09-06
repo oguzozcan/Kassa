@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:measureAllChildren="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioGroup
+                android:id="@+id/typeRadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal">
+                <!--android:weightSum="8"-->
+                <RadioButton
+                    android:id="@+id/phoneType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:checked="true"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_phone"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Telefon"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/gasType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_gas"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Gaz"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/waterType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_water"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Su"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/cableType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_cable"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="KabloTv"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/internetType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_internet"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="İnternet"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/securityType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_security"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Güvenlik"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/parkingType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_parking"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Park"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/otherType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_other"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Diğer"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+            </RadioGroup>
+        </LinearLayout>
+    </HorizontalScrollView>
+</merge>

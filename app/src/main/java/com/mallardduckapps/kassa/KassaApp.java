@@ -22,7 +22,13 @@ import com.squareup.otto.Subscribe;
 import com.squareup.otto.ThreadEnforcer;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -46,9 +52,11 @@ public class KassaApp extends Application {
         Retrofit retrofitAuth = createRetrofitObject(Constants.AUTH_URL);
         Retrofit retrofit = createRetrofitObject(Constants.ROOT_URL);
         getBus().register(this);
-        getBus().register(new AuthenticationService(getBus(), retrofitAuth.create(AuthRestApi.AuthenticationRestApi.class), retrofit.create(AuthRestApi.RegisterRestApi.class)));
-        getBus().register(new ExpenseService(this, retrofit.create(ExpenseRestApi.GetExpensesRestApi.class), retrofit.create(ExpenseRestApi.GetExpensesByCategoryRestApi.class), retrofit.create(ExpenseRestApi.GetExpenseRestApi.class),
-                retrofit.create(ExpenseRestApi.PostExpenseRestApi.class), retrofit.create(ExpenseRestApi.DeleteExpenseRestApi.class)));
+        getBus().register(new AuthenticationService(getBus(), retrofitAuth.create(AuthRestApi.AuthenticationRestApi.class), retrofit.create(AuthRestApi.RegisterRestApi.class),
+                retrofit.create(AuthRestApi.GetConfirmationCode.class), retrofit.create(AuthRestApi.PostConfirmationCode.class)));
+        getBus().register(new ExpenseService(this, retrofit.create(ExpenseRestApi.GetExpensesRestApi.class), retrofit.create(ExpenseRestApi.GetExpensesByCategoryRestApi.class),
+                retrofit.create(ExpenseRestApi.GetExpenseRestApi.class), retrofit.create(ExpenseRestApi.PostExpenseRestApi.class),
+                retrofit.create(ExpenseRestApi.DeleteExpenseRestApi.class), retrofit.create(ExpenseRestApi.UpdateExpenseRestApi.class)));
         getDataSaver();
         // OkHttpClient okHttpClient = new OkHttpClient();
         // File customCacheDirectory = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/ArmutHVCache");
@@ -94,8 +102,24 @@ public class KassaApp extends Application {
         return new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(new NullOnEmptyConverterFactory())
                 .client(new OkHttpClient())
                 .build();
+    }
+
+    public class NullOnEmptyConverterFactory extends Converter.Factory {
+
+        @Override
+        public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+            final Converter<ResponseBody, ?> delegate = retrofit.nextResponseBodyConverter(this, type, annotations);
+            return new Converter<ResponseBody, Object>() {
+                @Override
+                public Object convert(ResponseBody body) throws IOException {
+                    if (body.contentLength() == 0) return null;
+                    return delegate.convert(body);
+                }
+            };
+        }
     }
 
     @Subscribe

@@ -7,4 +7,7 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="ic_clear_margin">16dp</dimen>
+
+    <dimen name="type_icon_drawable_padding">12dp</dimen>
+    <dimen name="type_icon_padding">12dp</dimen>
 </resources>

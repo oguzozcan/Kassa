@@ -1,5 +1,7 @@
 package com.mallardduckapps.kassa.objects;
 
+import android.os.Parcel;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -27,4 +29,37 @@ public class User extends Person {
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.id);
+        dest.writeString(this.createDate);
+    }
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        super(in);
+        this.id = in.readInt();
+        this.createDate = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

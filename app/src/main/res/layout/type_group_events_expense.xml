@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:measureAllChildren="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioGroup
+                android:id="@+id/typeRadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal">
+                <!--android:weightSum="8"-->
+                <RadioButton
+                    android:id="@+id/diningType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:checked="true"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_dining"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Yemek"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/museumType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_museum"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Müze"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/holidayType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_holiday"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Tatil"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/partyType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_party"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Parti"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/movieType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_movies"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Sinema"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/concertType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_concert"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Konser"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/theatreType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_theater"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Tiyatro"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/otherType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:button="@android:color/transparent"
+                    android:drawablePadding="@dimen/type_icon_drawable_padding"
+                    android:drawableTop="@drawable/selector_type_other"
+                    android:gravity="center"
+                    android:onClick="onTypeRadioButtonSelected"
+                    android:paddingBottom="@dimen/type_icon_padding"
+                    android:paddingTop="@dimen/type_icon_padding"
+                    android:text="Diğer"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+            </RadioGroup>
+        </LinearLayout>
+    </HorizontalScrollView>
+</merge>

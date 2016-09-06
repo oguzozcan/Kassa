@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/add_expense_background"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mallardduckapps.kassa.AddNewExpenseActivity">
 
@@ -15,6 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:weightSum="2">
 
         <TextView
@@ -24,7 +26,8 @@
             android:gravity="left"
             android:padding="10dp"
             android:text="Tutar : "
-            android:textSize="21dp" />
+            android:textColor="@color/white"
+            android:textSize="19dp" />
 
         <EditText
             android:id="@+id/priceEditText"
@@ -32,11 +35,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:padding="10dp"
-            android:inputType="numberDecimal"
             android:hint="Ücret girin"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
+            android:textColor="@color/white"
             android:textColorHint="@color/warm_grey"
-            android:textSize="21dp" />
+            android:textSize="19dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,6 +50,8 @@
         android:layout_below="@+id/priceLayout"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:weightSum="2">
 
         <TextView
@@ -55,7 +61,9 @@
             android:gravity="left"
             android:padding="10dp"
             android:text="İsim: "
-            android:textSize="19dp" />
+            android:textColor="@color/white"
+
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/title"
@@ -63,11 +71,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:padding="10dp"
-            android:inputType="text"
             android:hint="İsim Girin"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/white"
+
             android:textColorHint="@color/warm_grey"
-            android:textSize="19dp" />
+            android:textSize="18dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -77,241 +87,305 @@
         android:layout_below="@+id/nameLayout"
         android:layout_marginBottom="15dp"
         android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:weightSum="2">
 
-        <LinearLayout
-            android:id="@+id/dateLayout"
-            android:layout_width="0dp"
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:gravity="left"
+            android:padding="8dp"
+            android:text="Tarih:  "
+            android:textColor="@color/white"
+            android:textSize="18dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:padding="8dp"
-                android:text="Tarih:  "
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:padding="8dp"
-                android:textSize="16dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lastDateLayout"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:padding="8dp"
-                android:text="Son Ödeme Tarihi:  "
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/lastDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:padding="8dp"
-                android:textSize="16dp" />
-        </LinearLayout>
+            android:gravity="right"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+        <!--<LinearLayout-->
+        <!--android:id="@+id/lastDateLayout"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:orientation="vertical">-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="left"-->
+        <!--android:padding="8dp"-->
+        <!--android:text="Son Ödeme Tarihi:  "-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="16dp" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/lastDate"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="right"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:padding="8dp"-->
+        <!--android:textSize="16dp" />-->
+        <!--</LinearLayout>-->
     </LinearLayout>
 
-    <RadioGroup
-        android:id="@+id/categoryRadioGroup"
+    <LinearLayout
+        android:id="@+id/categoryRadioGroupParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/parentDateLayout"
         android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:orientation="horizontal"
-        android:weightSum="4">
-        <RadioButton
-            android:id="@+id/dailyCat"
+        android:orientation="vertical">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginRight="5dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_weight="1"
-            android:drawableTop="@drawable/selector_daily_button"
-            android:drawablePadding="15dp"
-            android:button="@android:color/transparent"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:onClick="onRadioButtonClicked"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="Günlük"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
-        <RadioButton
-            android:id="@+id/homeCat"
-            android:layout_width="wrap_content"
+            android:gravity="left"
+            android:padding="8dp"
+            android:text="Kategori: "
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <RadioGroup
+            android:id="@+id/categoryRadioGroup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/selector_home_button"
-            android:drawablePadding="15dp"
-            android:button="@android:color/transparent"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:onClick="onRadioButtonClicked"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="Ev"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
-        <RadioButton
-            android:id="@+id/activityCat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/selector_event_button"
-            android:drawablePadding="15dp"
-            android:button="@android:color/transparent"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:onClick="onRadioButtonClicked"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="Etkinlik"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
-        <RadioButton
-            android:id="@+id/workCat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/selector_work_button"
-            android:drawablePadding="15dp"
-            android:button="@android:color/transparent"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:onClick="onRadioButtonClicked"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:text="İş"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:weightSum="4">
+
+            <RadioButton
+                android:id="@+id/dailyCat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawablePadding="12dp"
+                android:drawableTop="@drawable/selector_daily_button"
+                android:gravity="center"
+                android:onClick="onRadioButtonClicked"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="Günlük"
+                android:textColor="@color/white"
+                android:textSize="13dp" />
+
+            <RadioButton
+                android:id="@+id/homeCat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawablePadding="12dp"
+                android:drawableTop="@drawable/selector_home_button"
+                android:gravity="center"
+                android:onClick="onRadioButtonClicked"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="Ev"
+                android:textColor="@color/white"
+                android:textSize="13dp" />
+
+            <RadioButton
+                android:id="@+id/activityCat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawablePadding="12dp"
+                android:drawableTop="@drawable/selector_event_button"
+                android:gravity="center"
+                android:onClick="onRadioButtonClicked"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="Etkinlik"
+                android:textColor="@color/white"
+                android:textSize="13dp" />
+
+            <RadioButton
+                android:id="@+id/workCat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:drawablePadding="12dp"
+                android:drawableTop="@drawable/selector_work_button"
+                android:gravity="center"
+                android:onClick="onRadioButtonClicked"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="İş"
+                android:textColor="@color/white"
+                android:textSize="13dp" />
         </RadioGroup>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryRadioGroupParent"
+        android:layout_gravity="center"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:padding="8dp"
+            android:text="Tür: "
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <ViewFlipper
+            android:id="@+id/typeViewFlipper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/type_group_daily_expense"></include>
+
+            <include layout="@layout/type_group_events_expense"></include>
+
+            <include layout="@layout/type_group_property_expense"></include>
+
+        </ViewFlipper>
+    </LinearLayout>
+
 
     <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/parentDateLayout"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:weightSum="4">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/parentDateLayout"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:weightSum="4">-->
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/categoryDaily"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="6dp"-->
-            <!--android:layout_marginRight="6dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="vertical">-->
+    <!--<LinearLayout-->
+    <!--android:id="@+id/categoryDaily"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="6dp"-->
+    <!--android:layout_marginRight="6dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
 
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="6dp"-->
-                <!--android:src="@drawable/ev_icon" />-->
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="6dp"-->
+    <!--android:src="@drawable/ev_icon" />-->
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Günlük"-->
-                <!--android:textSize="14dp" />-->
-        <!--</LinearLayout>-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Günlük"-->
+    <!--android:textSize="14dp" />-->
+    <!--</LinearLayout>-->
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/categoryHome"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="6dp"-->
-            <!--android:layout_marginRight="6dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="vertical">-->
+    <!--<LinearLayout-->
+    <!--android:id="@+id/categoryHome"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="6dp"-->
+    <!--android:layout_marginRight="6dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
 
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="6dp"-->
-                <!--android:src="@drawable/ev_icon" />-->
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="6dp"-->
+    <!--android:src="@drawable/ev_icon" />-->
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Ev"-->
-                <!--android:textSize="14dp" />-->
-        <!--</LinearLayout>-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Ev"-->
+    <!--android:textSize="14dp" />-->
+    <!--</LinearLayout>-->
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/categoryActivity"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="6dp"-->
-            <!--android:layout_marginRight="6dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="vertical">-->
+    <!--<LinearLayout-->
+    <!--android:id="@+id/categoryActivity"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="6dp"-->
+    <!--android:layout_marginRight="6dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
 
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="6dp"-->
-                <!--android:src="@drawable/ev_icon" />-->
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="6dp"-->
+    <!--android:src="@drawable/ev_icon" />-->
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Etkinlik"-->
-                <!--android:textSize="14dp" />-->
-        <!--</LinearLayout>-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Etkinlik"-->
+    <!--android:textSize="14dp" />-->
+    <!--</LinearLayout>-->
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/categoryWork"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="6dp"-->
-            <!--android:layout_marginRight="6dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="vertical">-->
+    <!--<LinearLayout-->
+    <!--android:id="@+id/categoryWork"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="6dp"-->
+    <!--android:layout_marginRight="6dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
 
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="6dp"-->
-                <!--android:src="@drawable/is_icon" />-->
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="6dp"-->
+    <!--android:src="@drawable/is_icon" />-->
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="İş"-->
-                <!--android:textSize="14dp" />-->
-        <!--</LinearLayout>-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="İş"-->
+    <!--android:textSize="14dp" />-->
+    <!--</LinearLayout>-->
 
 
     <!--</LinearLayout>-->
@@ -319,11 +393,12 @@
         android:id="@+id/addNewExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_menu_save" />
+        android:src="@drawable/ok_tick"
+        app:backgroundTint="@color/marigold" />
 
     <include layout="@layout/loading_layout"></include>
 

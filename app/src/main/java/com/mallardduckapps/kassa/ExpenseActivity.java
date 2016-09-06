@@ -89,6 +89,7 @@ public class ExpenseActivity extends BaseActivity implements ExpenseItemAdapter.
 //                        .setAction("Action", null).show();
                 Intent intent = new Intent(ExpenseActivity.this, AddNewExpenseActivity.class);
                 intent.putExtra(AddNewExpenseActivity.CATEGORY_ID_KEY, categoryId);
+                intent.putExtra(AddNewExpenseActivity.POST_OR_UPDATE_KEY, true);
                 startActivityForResult(intent, Constants.EXPENSE_CREATED);
             }
         });
@@ -144,7 +145,7 @@ public class ExpenseActivity extends BaseActivity implements ExpenseItemAdapter.
             Log.d(TAG, "ON ACTIVITY RESULT UPDATE PROBLEM");
             return;
         }
-        if(resultCode == Constants.EXPENSE_CREATED){
+        if(resultCode == Constants.EXPENSE_CREATED || resultCode == Constants.EXPENSE_UPDATED){
             app.getBus().post(new ExpenseEvents.ExpenseListRequest());
             loadingLayout.setVisibility(View.VISIBLE);
         }

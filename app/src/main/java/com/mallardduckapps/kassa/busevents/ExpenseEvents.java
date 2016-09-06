@@ -121,4 +121,34 @@ public class ExpenseEvents {
             return response;
         }
     }
+
+    public static class UpdateExpenseRequest{
+        private int expenseId;
+        private Expense expense;
+
+        public UpdateExpenseRequest(Expense expense) {
+            this.expense = expense;
+            this.expenseId = expense.getId();//expenseId;
+        }
+
+        public int getExpenseId() {
+            return expenseId;
+        }
+
+        public Expense getExpense() {
+            return expense;
+        }
+    }
+
+    public static class UpdateExpenseResponse{
+        private Response<Expense> response;
+
+        public UpdateExpenseResponse(Response<Expense> response) {
+            this.response = response;
+        }
+
+        public Response<Expense> getExpense() {
+            return response;
+        }
+    }
 }

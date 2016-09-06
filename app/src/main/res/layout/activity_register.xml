@@ -29,8 +29,26 @@
                 android:layout_height="wrap_content"
                 android:padding="12dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="26dp"
+                android:layout_marginBottom="15dp"
                 android:src="@drawable/header_logo"/>
+
+            <RelativeLayout
+                android:id="@+id/addImageLayout"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/add_image_circle"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/add_image_icon"/>
+
+            </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -60,10 +78,32 @@
                 android:theme="@style/TextStyle">
 
                 <AutoCompleteTextView
-                    android:id="@+id/email"
+                    android:id="@+id/surname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/user_icon"
+                    android:nextFocusDown="@+id/email"
+                    android:imeOptions="actionNext"
+                    android:drawablePadding="11dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:hint="@string/prompt_surname"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextStyle">
+
+                <AutoCompleteTextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/email_icon"
                     android:drawablePadding="11dp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
@@ -76,94 +116,6 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/TextStyle">
-
-                <AutoCompleteTextView
-                    android:id="@+id/tcId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/user_icon"
-                    android:drawablePadding="11dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:nextFocusDown="@+id/phone"
-                    android:imeOptions="actionNext"
-                    android:hint="@string/prompt_national_id"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/TextStyle">
-
-                <AutoCompleteTextView
-                    android:id="@+id/phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/user_icon"
-                    android:drawablePadding="11dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:imeOptions="actionNext"
-                    android:nextFocusDown="@+id/password"
-                    android:hint="@string/prompt_phone"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="6dp"
-                android:theme="@style/TextStyle">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_register"
-                    android:drawableLeft="@drawable/password_icon"
-                    android:nextFocusDown="@+id/confirmPassword"
-                    android:imeOptions="actionNext"
-                    android:drawablePadding="11dp"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="6dp"
-                android:theme="@style/TextStyle">
-
-                <EditText
-                    android:id="@+id/confirmPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/confirm_prompt_password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_register"
-                    android:drawableLeft="@drawable/password_icon"
-                    android:drawablePadding="11dp"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/register_button"
