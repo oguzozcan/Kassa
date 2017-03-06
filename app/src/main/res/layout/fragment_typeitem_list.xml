@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+        tools:listitem="@layout/type_layout_item" />
+</merge>
+
+    <!--android:name="com.mallardduckapps.kassa.fragments.TypeItemFragment"--><!--tools:context="com.mallardduckapps.kassa.fragments.TypeItemFragment"-->

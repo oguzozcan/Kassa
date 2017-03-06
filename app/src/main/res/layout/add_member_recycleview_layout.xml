@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/memberListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/transparent"
+                android:descendantFocusability="beforeDescendants"
+                android:fadeScrollbars="true"
+                android:fillViewport="true"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:scrollbars="horizontal"
+                android:transcriptMode="normal"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:listitem="@layout/member_layout_item" />
+
+            <ImageView
+                android:id="@+id/addMemberButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/yeni_ekle_icon" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</merge>

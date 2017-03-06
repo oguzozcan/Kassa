@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:background="@drawable/background_image"
     android:fitsSystemWindows="true"
@@ -32,23 +33,43 @@
                 android:layout_marginBottom="15dp"
                 android:src="@drawable/header_logo"/>
 
-            <RelativeLayout
-                android:id="@+id/addImageLayout"
+            <ViewSwitcher
+                android:id="@+id/viewSwitcher"
                 android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/add_image_circle"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/add_image_icon"/>
+                <RelativeLayout
+                    android:id="@+id/addImageLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/add_image_circle"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/add_image_icon"/>
 
-            </RelativeLayout>
+                </RelativeLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileThumbnail"
+                    android:layout_width="@dimen/big_thumbnail_width"
+                    android:layout_height="@dimen/big_thumbnail_width"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="Profil Fotosu"
+                    app:civ_border_width="3dp"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_overlay="true"
+                    android:src="@android:drawable/sym_def_app_icon" />
+
+            </ViewSwitcher>
+
+
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -89,8 +110,7 @@
                     android:textColorHint="@color/white"
                     android:hint="@string/prompt_surname"
                     android:inputType="text"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 

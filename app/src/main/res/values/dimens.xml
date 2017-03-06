@@ -10,4 +10,11 @@
 
     <dimen name="type_icon_drawable_padding">12dp</dimen>
     <dimen name="type_icon_padding">12dp</dimen>
+
+    <dimen name="thumbnail_width_messages">38dp</dimen>
+    <dimen name="thumbnail_width">60dp</dimen>
+    <dimen name="thumbnail_list_width">51dp</dimen>
+    <dimen name="big_thumbnail_width">88dp</dimen>
+    <dimen name="extra_big_thumbnail_width">130dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

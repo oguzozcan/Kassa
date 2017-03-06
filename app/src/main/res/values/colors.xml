@@ -31,6 +31,9 @@
     <color name="darkenBackground">#33000000</color><!--%20 -->
     <color name="thirtyPercentDark">#4D000000</color><!--%30 -->
     <color name="blackish_sixtyfive">#A6000000</color><!-- %65 -->
+
+    <color name="daily_type_background">#ffc300</color>
+    <color name="event_type_background">#e3286e</color>
     <!-- Text styles -->
     <!--<resources>-->
         <!--<style name="TextStyle3">-->

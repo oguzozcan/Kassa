@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.mallardduckapps.kassa.AddNewExpenseActivity;
 import com.mallardduckapps.kassa.R;
+import com.mallardduckapps.kassa.objects.BaseSwipeListItem;
 import com.mallardduckapps.kassa.objects.Expense;
 import com.mallardduckapps.kassa.utils.Constants;
 import com.mallardduckapps.kassa.utils.TimeUtils;
@@ -33,7 +34,7 @@ import java.util.List;
 public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.DataObjectHolder> {
 
     private final WeakReference<Activity> activity;
-    private ArrayList<Expense> data;
+    private ArrayList<BaseSwipeListItem> data;
     private RemoveExpenseCallback removeExpenseCallback;
     private LayoutInflater inflater = null;
     private final RecyclerView expenseRecyclerView;
@@ -43,8 +44,8 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
     private int lastInsertedIndex; // so we can add some more items for testing purposes
     private boolean undoOn; // is undo on, you can turn it on from the toolbar menu
     private Handler handler = new Handler(); // hanlder for running delayed runnables
-    private HashMap<Expense, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
-    private List<Expense> itemsPendingRemoval;
+    private HashMap<BaseSwipeListItem, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
+    private List<BaseSwipeListItem> itemsPendingRemoval;
     private static final int PENDING_REMOVAL_TIMEOUT = 2500; // 3sec
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder {
@@ -73,7 +74,7 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
         return new DataObjectHolder(view);
     }
 
-    public ExpenseItemAdapter(Activity act, RemoveExpenseCallback removeExpenseCallback, ArrayList<Expense> expenses, RecyclerView expenseRecyclerView) {
+    public ExpenseItemAdapter(Activity act, RemoveExpenseCallback removeExpenseCallback, ArrayList expenses, RecyclerView expenseRecyclerView) {
         this.activity = new WeakReference(act);
         this.expenseRecyclerView = expenseRecyclerView;
         this.removeExpenseCallback = removeExpenseCallback;
@@ -88,7 +89,7 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
         }
     }
 
-    public void add(Expense data) {
+    public void add(BaseSwipeListItem data) {
         if (this.data == null) {
             this.data = new ArrayList<>();
         }
@@ -98,7 +99,7 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
         notifyItemInserted(position);
     }
 
-    public void addData(ArrayList<Expense> data) {
+    public void addData(ArrayList<BaseSwipeListItem> data) {
         if (this.data == null) {
             this.data = data;
         } else {
@@ -108,7 +109,7 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
         notifyDataSetChanged();
     }
 
-    public void remove(Expense item) {
+    public void remove(BaseSwipeListItem item) {
         int position = data.indexOf(item);
         if (itemsPendingRemoval.contains(item)) {
             itemsPendingRemoval.remove(item);
@@ -118,7 +119,7 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
     }
 
     public void remove(int position) {
-        Expense item = data.get(position);
+        BaseSwipeListItem item = data.get(position);
         if (itemsPendingRemoval.contains(item)) {
             itemsPendingRemoval.remove(item);
         }
@@ -127,12 +128,12 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
     }
 
     public boolean isPendingRemoval(int position) {
-        Expense item = data.get(position);
+        BaseSwipeListItem item = data.get(position);
         return itemsPendingRemoval.contains(item);
     }
 
     public void pendingRemoval(int position) {
-        final Expense item = data.get(position);
+        final BaseSwipeListItem item = data.get(position);
         if (!itemsPendingRemoval.contains(item)) {
             itemsPendingRemoval.add(item);
             // this will redraw row in "undo" state
@@ -155,7 +156,7 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-        final Expense event = getItem(position);
+        final BaseSwipeListItem event = getItem(position);
         if (itemsPendingRemoval.contains(event)) {
             setContentVisible(holder, false);
             holder.undoTxt.setOnClickListener(new View.OnClickListener() {
@@ -174,8 +175,12 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
             setContentVisible(holder, true);
             holder.undoTxt.setOnClickListener(null);
             holder.titleTv.setText(event.getName());
-            holder.subtitleTv.setText(TimeUtils.convertDateTimeFormat(TimeUtils.dfISOMS, TimeUtils.dtfOutWOTime, event.getDueDate()));
-            holder.expensePriceTv.setText(String.format("%.2f %s", event.getPrice(), "TL"));
+
+            if(event instanceof Expense){
+                Expense expense = (Expense) event;
+                holder.subtitleTv.setText(TimeUtils.convertDateTimeFormat(TimeUtils.dfISOMS, TimeUtils.dtfOutWOTime, expense.getDueDate()));
+                holder.expensePriceTv.setText(String.format("%.2f %s", expense.getPrice(), "TL"));
+            }
         }
 //        Log.d(TAG, "TITLE: " + event.getServiceName());
     }
@@ -206,14 +211,14 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
         return data.size();
     }
 
-    public Expense getItem(int position) {
+    public BaseSwipeListItem getItem(int position) {
         return data.get(position);
     }
 
-    public int getItemIndex(Expense expense){
+    public int getItemIndex(BaseSwipeListItem expense){
         if(data != null){
             int pos = 0;
-            for(Expense e : data){
+            for(BaseSwipeListItem e : data){
                 if(e.equals(expense)){
                     return pos;
                 }
@@ -244,14 +249,24 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<ExpenseItemAdapter.
         @Override
         public void onClick(View view) {
             int itemPosition = expenseRecyclerView.getChildLayoutPosition(view);
-            final Expense event = getItem(itemPosition);
+            final BaseSwipeListItem event = getItem(itemPosition);
             Activity act = activity.get();
             if (act != null && event != null) {
-                Intent intent = new Intent(act, AddNewExpenseActivity.class);
-                intent.putExtra(AddNewExpenseActivity.CATEGORY_ID_KEY, event.getCategoryId());
-                intent.putExtra(AddNewExpenseActivity.POST_OR_UPDATE_KEY, false);
-                intent.putExtra(AddNewExpenseActivity.EXPENSE_KEY, event);
-                act.startActivityForResult(intent, Constants.EXPENSE_UPDATED);
+                if(event instanceof Expense){
+                    Intent intent = new Intent(act, AddNewExpenseActivity.class);
+                    intent.putExtra(AddNewExpenseActivity.CATEGORY_ID_KEY, event.getCategoryId());
+                    intent.putExtra(AddNewExpenseActivity.POST_OR_UPDATE_KEY, false);
+                    intent.putExtra(AddNewExpenseActivity.EXPENSE_KEY, event);
+                    act.startActivityForResult(intent, Constants.EXPENSE_UPDATED);
+                }else{
+                    //TODO
+//                    Intent intent = new Intent(act, AddNewExpenseActivity.class);
+//                    intent.putExtra(AddNewExpenseActivity.CATEGORY_ID_KEY, event.getCategoryId());
+//                    intent.putExtra(AddNewExpenseActivity.POST_OR_UPDATE_KEY, false);
+//                    intent.putExtra(AddNewExpenseActivity.EVENT_KEY, event);
+//                    act.startActivityForResult(intent, Constants.EVENT_UPDATED);
+                }
+
 //            act.startActivityForResult(jobIntent, Constants.UPDATE_JOBS_PAGE);
 //            BaseActivity.setTranslateAnimation(act);
             }

@@ -7,10 +7,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Session {
 
-    @SerializedName("ApplicationSession")
+    @SerializedName("application_session")
     private String appSession;
 
-    @SerializedName("UserExists")
+    @SerializedName("user_exists")
     private boolean userExists;
 
     public String getAppSession() {

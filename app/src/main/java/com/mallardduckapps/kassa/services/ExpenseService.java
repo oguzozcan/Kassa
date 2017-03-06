@@ -47,10 +47,9 @@ public class ExpenseService {
 
     @Subscribe
     public void getExpenseList(final ExpenseEvents.ExpenseListRequest event){
-        String token = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
-        Log.d(TAG, "GET EXPENSE LIST: token:" + token);
-        if(token.equals("")){
-            Log.d(TAG, "PROBLEM !!!! Token NULL" );
+        Log.d(TAG, "GET EXPENSE LİST");
+        String token = app.isTokenPresent(TAG);
+        if(token == null){
             return;
         }
         getExpenseListRestApi.getExpenseList(token, "").enqueue(new Callback<ArrayList<Expense>>() {
@@ -105,12 +104,11 @@ public class ExpenseService {
 
     @Subscribe
     public void postExpense(final ExpenseEvents.PostExpenseRequest event){
-        String token = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
-        if(token.equals("")){
-            Log.d(TAG, "PROBLEM !!!! Token NULL" );
+        String token = app.isTokenPresent(TAG);
+        if(token == null){
             return;
         }
-        postExpenseRestApi.onExpenseCreated(token, "", event.getExpense()).enqueue(new Callback<Expense>() {
+        postExpenseRestApi.onExpenseCreated(token, "", event.getItem()).enqueue(new Callback<Expense>() {
             @Override
             public void onResponse(Call<Expense> call, Response<Expense> response) {
                 Log.d(TAG, "ON RESPONSE postexpense: " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message() + "- url: " + call.request().url());
@@ -133,9 +131,8 @@ public class ExpenseService {
 
     @Subscribe
     public void deleteExpense(final ExpenseEvents.DeleteExpenseRequest event){
-        String token = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
-        if(token.equals("")){
-            Log.d(TAG, "PROBLEM !!!! Token NULL" );
+        String token = app.isTokenPresent(TAG);
+        if(token == null){
             return;
         }
         deleteExpenseRestApi.onExpenseDeleted(token, "", event.getExpenseId()).enqueue(new Callback<String>() {
@@ -161,12 +158,11 @@ public class ExpenseService {
 
     @Subscribe
     public void updateExpense(final ExpenseEvents.UpdateExpenseRequest event){
-        String token = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
-        if(token.equals("")){
-            Log.d(TAG, "PROBLEM !!!! Token NULL" );
+        String token = app.isTokenPresent(TAG);
+        if(token == null){
             return;
         }
-        updateExpenseRestApi.onExpenseUpdated(token, "",event.getExpenseId(), event.getExpense()).enqueue(new Callback<Expense>() {
+        updateExpenseRestApi.onExpenseUpdated(token, "",event.getExpenseId(), event.getItem()).enqueue(new Callback<Expense>() {
             @Override
             public void onResponse(Call<Expense> call, Response<Expense> response) {
                 Log.d(TAG, "ON RESPONSE update expense: " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message() + "- url: " + call.request().url());

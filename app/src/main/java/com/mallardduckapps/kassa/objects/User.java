@@ -9,9 +9,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class User extends Person {
 
-    @SerializedName("Id")
+    @SerializedName("id")
     private int id;
-    @SerializedName("CreateDate")
+    @SerializedName("create_date")
     private String createDate;
 
     public int getId() {

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mallardduckapps.kassa.busevents.AuthEvents;
+import com.mallardduckapps.kassa.busevents.MiscEvents;
 import com.mallardduckapps.kassa.objects.Session;
 import com.mallardduckapps.kassa.utils.Constants;
 import com.squareup.otto.Subscribe;
@@ -27,7 +29,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ConfirmationActivity extends BaseActivity {
 
-    private EditText mPhoneView;
+    private TextInputLayout mPhoneView;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -40,8 +42,9 @@ public class ConfirmationActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation);
-        mPhoneView = (EditText) findViewById(R.id.phone);
-        mPhoneView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mPhoneView = (TextInputLayout) findViewById(R.id.phone);
+        mPhoneView.setErrorEnabled(true);
+        mPhoneView.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -64,8 +67,12 @@ public class ConfirmationActivity extends BaseActivity {
 //        showProgress(true);
         String accessToken = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
         getSupportActionBar().hide();
-        passToMainActivity(accessToken);
+        boolean isExistingUser = app.getDataSaver().getBoolean(Constants.EXISTING_USER);
+        if(isExistingUser){
+            passToMainActivity(accessToken);
+        }
 
+        app.getBus().post(new MiscEvents.GetWebPageRequest());
     }
 
     @Override
@@ -89,14 +96,16 @@ public class ConfirmationActivity extends BaseActivity {
     private void attemptLogin() {
         hideKeyboard();
         mPhoneView.setError(null);
-        String phoneNumber = mPhoneView.getText().toString();
-        String convertedPhoneNumber = "00" + phoneNumber.substring(1);
-        Log.d(TAG, "ATTEMPT LOGIN : " + convertedPhoneNumber);
+        mPhoneView.setErrorEnabled(false);
+        String phoneNumber = mPhoneView.getEditText().getText().toString();
+        //String convertedPhoneNumber = phoneNumber.substring(1);//"00" +
+        Log.d(TAG, "ATTEMPT LOGIN : " + phoneNumber);
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(phoneNumber) && !isPhoneValid(convertedPhoneNumber)) {
+        if (!TextUtils.isEmpty(phoneNumber) && !isPhoneValid(phoneNumber)) {
+            mPhoneView.setErrorEnabled(true);
             mPhoneView.setError(getString(R.string.error_invalid_password));
             focusView = mPhoneView;
             cancel = true;
@@ -110,14 +119,14 @@ public class ConfirmationActivity extends BaseActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            Log.d(TAG, "SEND REQUEST TO GET CONFIRMATION CODE "  + convertedPhoneNumber);
+            Log.d(TAG, "SEND REQUEST TO GET CONFIRMATION CODE "  + phoneNumber);
             //Todo confirmation code is static now
-            app.getBus().post(new AuthEvents.GetConfirmationCodeRequest(convertedPhoneNumber));
+            app.getBus().post(new AuthEvents.GetConfirmationCodeRequest(phoneNumber));
         }
     }
 
     private boolean isPhoneValid(String phone) {
-        return phone.length() > 13;
+        return phone.length() == 10;
     }
 
     private void hideKeyboard() {
@@ -197,7 +206,7 @@ public class ConfirmationActivity extends BaseActivity {
 
     @Subscribe
     public void getAppSession(AuthEvents.PostConfirmationCodeResponse object) {
-        showProgress(false);
+
         Log.d(TAG, "SESSION ID RECEIVED");
         if (object.getResponse() != null) {
             Session session = object.getResponse().body();
@@ -208,16 +217,16 @@ public class ConfirmationActivity extends BaseActivity {
             app.getBus().post(new AuthEvents.AuthRequest(session.isUserExists(), object.getPhoneNumber(), sessionId, "password", Constants.CLIENT_ID));
         }//Auth Failed
         else {
-
+            showProgress(false);
         }
     }
 
     @Subscribe
     public void getAuthStatus(AuthEvents.AuthResponse object) {
-        showProgress(false);
+
 
         if (object.getResponse() != null) {
-            Log.d(TAG, "AUTH RESPONSE: " + object.getResponse().body().getAccessToken() + "- isExistingUser : " + object.isExistingUser());//toString());
+            Log.d(TAG, "AUTH RESPONSE: " + object.getResponse().body().getAccessToken() + " - isExistingUser : " + object.isExistingUser());//toString());
             String accessToken = object.getResponse().body().getAccessToken();
             if (accessToken != null) {
                 app.getDataSaver().putString(Constants.ACCESS_TOKEN_KEY, "bearer " + accessToken);
@@ -226,14 +235,15 @@ public class ConfirmationActivity extends BaseActivity {
                 setResult(Activity.RESULT_OK);
 
                 if(object.isExistingUser()){
+                    app.getDataSaver().putBoolean(Constants.EXISTING_USER, true);
+                    app.getDataSaver().save();
                     passToMainActivity(accessToken);
                 }else{
                     Log.d(TAG, "OPENM REGISTER ACTIVITY");
                     Intent intent = new Intent(ConfirmationActivity.this, RegisterActivity.class);
                     startActivity(intent);
+                    finish();
                 }
-
-
             }
         }//Auth Failed
         else {
@@ -241,6 +251,7 @@ public class ConfirmationActivity extends BaseActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    showProgress(false);
                     //mPasswordView.setError(getString(R.string.error_incorrect_password));
                     //  mPasswordView.requestFocus();
                 }

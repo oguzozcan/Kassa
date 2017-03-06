@@ -57,7 +57,7 @@ public class ExpenseEvents {
             this.expense = expense;
         }
 
-        public Expense getExpense() {
+        public Expense getItem() {
             return expense;
         }
     }
@@ -69,7 +69,7 @@ public class ExpenseEvents {
             this.response = response;
         }
 
-        public Response<Expense> getExpense() {
+        public Response<Expense> getItem() {
             return response;
         }
     }
@@ -93,7 +93,7 @@ public class ExpenseEvents {
             this.response = response;
         }
 
-        public Response<Expense> getExpense() {
+        public Response<Expense> getItem() {
             return response;
         }
     }
@@ -117,7 +117,7 @@ public class ExpenseEvents {
             this.response = response;
         }
 
-        public Response<String> getExpense() {
+        public Response<String> getItem() {
             return response;
         }
     }
@@ -135,7 +135,7 @@ public class ExpenseEvents {
             return expenseId;
         }
 
-        public Expense getExpense() {
+        public Expense getItem() {
             return expense;
         }
     }
@@ -147,7 +147,7 @@ public class ExpenseEvents {
             this.response = response;
         }
 
-        public Response<Expense> getExpense() {
+        public Response<Expense> getItem() {
             return response;
         }
     }

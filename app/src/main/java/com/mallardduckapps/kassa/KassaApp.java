@@ -7,13 +7,20 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mallardduckapps.kassa.busevents.ApiErrorEvent;
+import com.mallardduckapps.kassa.objects.User;
 import com.mallardduckapps.kassa.services.AuthRestApi;
 import com.mallardduckapps.kassa.services.AuthenticationService;
+import com.mallardduckapps.kassa.services.EventService;
+import com.mallardduckapps.kassa.services.EventsRestApi;
 import com.mallardduckapps.kassa.services.ExpenseRestApi;
 import com.mallardduckapps.kassa.services.ExpenseService;
+import com.mallardduckapps.kassa.services.MiscRestApi;
+import com.mallardduckapps.kassa.services.MiscServices;
 import com.mallardduckapps.kassa.utils.Constants;
 import com.mallardduckapps.kassa.utils.DataSaver;
 import com.mallardduckapps.kassa.utils.KassaUtils;
@@ -52,12 +59,16 @@ public class KassaApp extends Application {
         Retrofit retrofitAuth = createRetrofitObject(Constants.AUTH_URL);
         Retrofit retrofit = createRetrofitObject(Constants.ROOT_URL);
         getBus().register(this);
-        getBus().register(new AuthenticationService(getBus(), retrofitAuth.create(AuthRestApi.AuthenticationRestApi.class), retrofit.create(AuthRestApi.RegisterRestApi.class),
+        getBus().register(new AuthenticationService(this, retrofitAuth.create(AuthRestApi.AuthenticationRestApi.class), retrofit.create(AuthRestApi.RegisterRestApi.class),
                 retrofit.create(AuthRestApi.GetConfirmationCode.class), retrofit.create(AuthRestApi.PostConfirmationCode.class)));
         getBus().register(new ExpenseService(this, retrofit.create(ExpenseRestApi.GetExpensesRestApi.class), retrofit.create(ExpenseRestApi.GetExpensesByCategoryRestApi.class),
                 retrofit.create(ExpenseRestApi.GetExpenseRestApi.class), retrofit.create(ExpenseRestApi.PostExpenseRestApi.class),
                 retrofit.create(ExpenseRestApi.DeleteExpenseRestApi.class), retrofit.create(ExpenseRestApi.UpdateExpenseRestApi.class)));
+        getBus().register(new MiscServices(this, retrofit.create(MiscRestApi.PostProfilePic.class)));
+        getBus().register(new EventService(this,retrofit.create(EventsRestApi.GetEventsRestApi.class), retrofit.create(EventsRestApi.GetEventRestApi.class),
+                retrofit.create(EventsRestApi.PostEventRestApi.class), retrofit.create(EventsRestApi.DeleteEventRestApi.class)));
         getDataSaver();
+
         // OkHttpClient okHttpClient = new OkHttpClient();
         // File customCacheDirectory = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/ArmutHVCache");
         // okHttpClient.setCache(new Cache(customCacheDirectory, 128 * 1024 * 1024)); // Cache = 32MB
@@ -96,6 +107,33 @@ public class KassaApp extends Application {
             dataSaver = new DataSaver(getApplicationContext(), "ArmutHV", false);
         }
         return dataSaver;
+    }
+
+    public String isTokenPresent(String TAG){
+        String token = getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
+        if(token.equals("")){
+            Log.d(TAG, "PROBLEM !!!! Token NULL" );
+            return null;
+        }
+        return token;
+    }
+
+    public void saveUser(User user){
+        Gson gson = new Gson();
+        String userJson = gson.toJson(user);
+        getDataSaver().putString(Constants.USER_JSON, userJson);
+        getDataSaver().save();
+    }
+
+    public User retrieveUserIfPresent(){
+        Gson gson = new Gson();
+        String userTxt = getDataSaver().getString(Constants.USER_JSON);
+        Log.d("User", "USER TXT: " + userTxt);
+        if(userTxt.equals("")){
+            return null;
+        }else{
+            return gson.fromJson(userTxt, User.class);
+        }
     }
 
     private Retrofit createRetrofitObject(String url) {
@@ -177,7 +215,7 @@ public class KassaApp extends Application {
 //        }, 25);
 //    }
 
-    public boolean requestCardWritePermission(Activity activity) {
+    public boolean requestCardWritePermission(Activity activity, String message) {
         if (!KassaUtils.isMarshmallow()) {
             isWriteToSdCardPermissionGranted = true;
             return true;
@@ -192,7 +230,7 @@ public class KassaApp extends Application {
                 // Show an expanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                showMessage(activity, "Mesaj'a fotoğraf ekleyebilmek için çekilen fotoğrafı SD kartınıza yüklememize izin verin.", Toast.LENGTH_LONG);
+                showMessage(activity, message, Toast.LENGTH_LONG);
             }
 //            else {
             // No explanation needed, we can request the permission.

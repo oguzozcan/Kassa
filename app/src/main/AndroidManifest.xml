@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
@@ -22,9 +23,7 @@
             android:name=".LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan|stateVisible">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -34,9 +33,13 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AddNewExpenseActivity"
+            android:windowSoftInputMode="adjustPan|stateVisible"
             android:parentActivityName=".ExpenseActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".ConfirmationActivity"
+        <activity
+            android:name=".RegisterActivity"
+            android:windowSoftInputMode="adjustPan|stateVisible" />
+        <activity
+            android:name=".ConfirmationActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan|stateVisible">
@@ -46,6 +49,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".EventActivity"
+
+            android:parentActivityName=".MainActivity" />
+        <!-- <activity android:name=".BaseSwipeListItemActivity"> -->
+        <!--  -->
+        <!-- </activity> -->
+        <activity android:name=".AddNewEventActivity"
+            android:parentActivityName=".EventActivity"
+            android:windowSoftInputMode="adjustPan|stateVisible"></activity>
     </application>
 
 </manifest>

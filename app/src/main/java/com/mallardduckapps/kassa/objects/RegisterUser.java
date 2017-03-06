@@ -7,18 +7,14 @@ import com.google.gson.annotations.SerializedName;
  */
 public class RegisterUser {
 
-    @SerializedName("FirstName")
+    @SerializedName("first_name")
     private String name;
-    @SerializedName("LastName")
+    @SerializedName("last_name")
     private String surname;
-    @SerializedName("EmailAddress")
+    @SerializedName("email_address")
     private String email;
-
-
-//    @SerializedName("Password")
-//    private String pass;
-//    @SerializedName("ConfirmPassword")
-//    private String confirmPass;
+    @SerializedName("photo_url")
+    private String photoUrl;
 
     public String getName() {
         return name;
@@ -43,14 +39,6 @@ public class RegisterUser {
 //    public void setNationalId(String nationalId) {
 //        this.nationalId = nationalId;
 //    }
-//
-//    public String getPhoneNumber() {
-//        return phoneNumber;
-//    }
-//
-//    public void setPhoneNumber(String phoneNumber) {
-//        this.phoneNumber = phoneNumber;
-//    }
 
     public String getEmail() {
         return email;
@@ -60,19 +48,12 @@ public class RegisterUser {
         this.email = email;
     }
 
-//    public String getPass() {
-//        return pass;
-//    }
-//
-//    public void setPass(String pass) {
-//        this.pass = pass;
-//    }
-//
-//    public String getConfirmPass() {
-//        return confirmPass;
-//    }
-//
-//    public void setConfirmPass(String confirmPass) {
-//        this.confirmPass = confirmPass;
-//    }
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
 }

@@ -14,7 +14,6 @@ import android.widget.ViewFlipper;
 
 import com.android.datetimepicker.date.DatePickerDialog;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mallardduckapps.kassa.busevents.ExpenseEvents;
 import com.mallardduckapps.kassa.objects.Expense;
 import com.mallardduckapps.kassa.utils.Constants;
@@ -34,15 +33,15 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
         TAG = "AddNewExpenseActivity";
     }
 
-    private int selectedCategoryId = - 1;
+    private int selectedCategoryId = -1;
     private int expenseId;
     private boolean isPostScreen = true;
     private DateTime dateTime;
-   //private DateTime lastDateTime;
+    //private DateTime lastDateTime;
     private RelativeLayout loadingLayout;
-    public static final String CATEGORY_ID_KEY ="CATEGORY_ID";
-    public static final String POST_OR_UPDATE_KEY ="IS_POST";
-    public static final String EXPENSE_KEY ="EXPENSE";
+    public static final String CATEGORY_ID_KEY = "CATEGORY_ID";
+    public static final String POST_OR_UPDATE_KEY = "IS_POST";
+    public static final String EXPENSE_KEY = "EXPENSE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,7 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
         Bundle bundle = getIntent().getExtras();
         selectedCategoryId = bundle.getInt(CATEGORY_ID_KEY, Constants.CATEGORY_ID_DAILY);
-        isPostScreen = bundle.getBoolean(POST_OR_UPDATE_KEY, true );
+        isPostScreen = bundle.getBoolean(POST_OR_UPDATE_KEY, true);
 
         getSupportActionBar().setTitle(isPostScreen ? "Harcama Yarat" : "Harcama Düzenle");
 
@@ -98,17 +97,15 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace this", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 Expense expense = isAnswersValid();
-                if(expense != null){
+                if (expense != null) {
                     Gson gson = new Gson();
                     String json = gson.toJson(expense);
                     Log.d(TAG, "ANSWERS VALID post new expense: " + json);
                     loadingLayout.setVisibility(View.VISIBLE);
-                    if(isPostScreen){
+                    if (isPostScreen) {
                         app.getBus().post(new ExpenseEvents.PostExpenseRequest(expense));
-                    }else{
+                    } else {
                         expense.setId(expenseId);
                         app.getBus().post(new ExpenseEvents.UpdateExpenseRequest(expense));
                     }
@@ -117,17 +114,17 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
         });
 
         initCategoryId(selectedCategoryId);
-        if(!isPostScreen){
-            initExpenseValuesForEdit((Expense)bundle.getParcelable(EXPENSE_KEY));
+        if (!isPostScreen) {
+            initExpenseValuesForEdit((Expense) bundle.getParcelable(EXPENSE_KEY));
 
         }
     }
 
-    private void initExpenseValuesForEdit(Expense expense){
+    private void initExpenseValuesForEdit(Expense expense) {
         expenseId = expense.getId();
         Log.d(TAG, "EXPENSE edit init values : " + expenseId);
 
-        if(expense != null){
+        if (expense != null) {
             EditText priceEditText = (EditText) findViewById(R.id.priceEditText);
             EditText titleEditText = (EditText) findViewById(R.id.title);
             TextView dateTv = (TextView) findViewById(R.id.date);
@@ -138,7 +135,7 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
         }
     }
 
-    private void initCategoryId(int categoryId){
+    private void initCategoryId(int categoryId) {
         RadioButton daily = (RadioButton) findViewById(R.id.dailyCat);
         RadioButton home = (RadioButton) findViewById(R.id.homeCat);
         RadioButton activity = (RadioButton) findViewById(R.id.activityCat);
@@ -146,7 +143,7 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
 
         ViewFlipper flipper = (ViewFlipper) findViewById(R.id.typeViewFlipper);
 
-        switch (categoryId){
+        switch (categoryId) {
             case Constants.CATEGORY_ID_DAILY:
                 daily.setChecked(true);
                 flipper.setDisplayedChild(0);
@@ -166,26 +163,26 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
         }
     }
 
-    private Expense isAnswersValid(){
+    private Expense isAnswersValid() {
         EditText priceEditText = (EditText) findViewById(R.id.priceEditText);
         EditText titleEditText = (EditText) findViewById(R.id.title);
         TextView dateTv = (TextView) findViewById(R.id.date);
-       // TextView lastDateTv = (TextView) findViewById(R.id.lastDate);
+        // TextView lastDateTv = (TextView) findViewById(R.id.lastDate);
         Expense expense;
         double price;
-        if(selectedCategoryId == -1){
+        if (selectedCategoryId == -1) {
             app.showMessage(AddNewExpenseActivity.this, "Lütfen kategori seçiniz.", Toast.LENGTH_SHORT);
             return null;
         }
-        try{
-           String priceTxt = priceEditText.getText().toString().trim();
-           price = Double.parseDouble(priceTxt);
-        }catch(Exception e){
+        try {
+            String priceTxt = priceEditText.getText().toString().trim();
+            price = Double.parseDouble(priceTxt);
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
         String title = titleEditText.getText().toString().trim();
-        if(title.length() < 1){
+        if (title.length() < 1) {
             return null;
         }
         expense = new Expense();
@@ -205,27 +202,27 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
     public void onRadioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
         ViewFlipper flipper = (ViewFlipper) findViewById(R.id.typeViewFlipper);
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.dailyCat:
-                if (checked){
+                if (checked) {
                     selectedCategoryId = Constants.CATEGORY_ID_DAILY;
                     flipper.setDisplayedChild(0);
                     break;
                 }
             case R.id.homeCat:
-                if (checked){
+                if (checked) {
                     selectedCategoryId = Constants.CATEGORY_ID_HOME;
                     flipper.setDisplayedChild(2);
                     break;
                 }
             case R.id.activityCat:
-                if (checked){
+                if (checked) {
                     selectedCategoryId = Constants.CATEGORY_ID_EVENT;
                     flipper.setDisplayedChild(1);
                     break;
                 }
             case R.id.workCat:
-                if (checked){
+                if (checked) {
                     selectedCategoryId = Constants.CATEGORY_ID_WORK;
                     flipper.setDisplayedChild(2);
                     break;
@@ -235,36 +232,36 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
 
     public void onTypeRadioButtonSelected(View view) {
         boolean checked = ((RadioButton) view).isChecked();
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.dailyCat:
-                if (checked){
+                if (checked) {
 
                     break;
                 }
             case R.id.homeCat:
-                if (checked){
+                if (checked) {
 
                     break;
                 }
             case R.id.activityCat:
-                if (checked){
+                if (checked) {
 
                     break;
                 }
             case R.id.workCat:
-                if (checked){
+                if (checked) {
                     break;
                 }
         }
     }
 
     @Subscribe
-    public void onExpensePosted(ExpenseEvents.PostExpenseResponse response){
+    public void onExpensePosted(ExpenseEvents.PostExpenseResponse response) {
         Log.d(TAG, "ON EXPENSE POSTED: ");
-        if(response != null){
-            Response<Expense> expenseResponse = response.getExpense();
+        if (response != null) {
+            Response<Expense> expenseResponse = response.getItem();
             Expense expense = expenseResponse.body();
-            if(expense != null){
+            if (expense != null) {
                 loadingLayout.setVisibility(View.GONE);
                 finish();
                 Log.d(TAG, "FINISH ACTIVITY");
@@ -273,12 +270,12 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
     }
 
     @Subscribe
-    public void onExpenseUpdated(ExpenseEvents.UpdateExpenseResponse response){
+    public void onExpenseUpdated(ExpenseEvents.UpdateExpenseResponse response) {
         Log.d(TAG, "ON EXPENSE POSTED: ");
-        if(response != null){
-            Response<Expense> expenseResponse = response.getExpense();
+        if (response != null) {
+            Response<Expense> expenseResponse = response.getItem();
             Expense expense = expenseResponse.body();
-            if(expense != null){
+            if (expense != null) {
                 loadingLayout.setVisibility(View.GONE);
                 finish();
                 Log.d(TAG, "FINISH ACTIVITY");
@@ -307,7 +304,7 @@ public class AddNewExpenseActivity extends BaseActivity implements DatePickerDia
 //            dateTv = (TextView) findViewById(R.id.lastDate);
 //            lastDateTime = new DateTime(year, monthOfYear, dayOfMonth, 0 , 0);
 //        }else{
-            dateTime = new DateTime(year, monthOfYear, dayOfMonth, 0 , 0);
+        dateTime = new DateTime(year, monthOfYear, dayOfMonth, 0, 0);
 //        }
         dateTv.setText(TimeUtils.convertSimpleDateToReadableForm(dateText, false));
     }

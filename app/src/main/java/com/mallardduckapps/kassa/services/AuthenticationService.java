@@ -3,6 +3,7 @@ package com.mallardduckapps.kassa.services;
 import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
+import com.mallardduckapps.kassa.KassaApp;
 import com.mallardduckapps.kassa.busevents.ApiErrorEvent;
 import com.mallardduckapps.kassa.busevents.AuthEvents;
 import com.mallardduckapps.kassa.objects.Session;
@@ -21,14 +22,16 @@ import retrofit2.Response;
 public class AuthenticationService {
 
     private Bus mBus;
+    private KassaApp app;
     private AuthRestApi.AuthenticationRestApi authRestApi;
     private AuthRestApi.RegisterRestApi registerRestApi;
     private AuthRestApi.GetConfirmationCode getConfirmationCodeApi;
     private AuthRestApi.PostConfirmationCode postConfirmationCodeApi;
     private final String TAG = "AuthService";
 
-    public AuthenticationService(Bus mBus, AuthRestApi.AuthenticationRestApi authRestApi, AuthRestApi.RegisterRestApi registerRestApi, AuthRestApi.GetConfirmationCode getConfirmationCodeApi, AuthRestApi.PostConfirmationCode postConfirmationCodeApi){
-        this.mBus = mBus;
+    public AuthenticationService(KassaApp app, AuthRestApi.AuthenticationRestApi authRestApi, AuthRestApi.RegisterRestApi registerRestApi, AuthRestApi.GetConfirmationCode getConfirmationCodeApi, AuthRestApi.PostConfirmationCode postConfirmationCodeApi){
+        this.app = app;
+        this.mBus = app.getBus();
         this.authRestApi = authRestApi;
         this.registerRestApi = registerRestApi;
         this.getConfirmationCodeApi = getConfirmationCodeApi;
@@ -62,7 +65,12 @@ public class AuthenticationService {
 
     @Subscribe
     public void getRegisteredUser(final AuthEvents.RegisterRequest registerRequest ){
-        registerRestApi.registerUser(registerRequest.getRegisterationObject()).enqueue(new Callback<User>() {
+        String token = app.isTokenPresent(TAG);
+        if(token == null){
+            return;
+        }
+
+        registerRestApi.registerUser(token, "", registerRequest.getRegisterationObject()).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 Log.d(TAG, "ON RESPONSE get registered user: " + response.isSuccessful() + " - responsecode: " + response.code() + " - response:" + response.message());

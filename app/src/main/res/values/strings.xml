@@ -4,7 +4,7 @@
     <!-- Strings related to login -->
     <string name="prompt_name">Ad</string>
     <string name="prompt_surname">Soyad</string>
-    <string name="prompt_phone">Cep Telefonu</string>
+    <string name="prompt_phone">Cep Telefonu - 10 Hane</string>
     <string name="prompt_national_id">TC Kimlik No</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Şifre</string>
@@ -33,5 +33,22 @@
     <string name="home">Ev</string>
     <string name="event">Etkinlik</string>
     <string name="work">İş</string>
+
+    <string name="start_date">Başlangıç Tarihi: </string>
+    <string name="end_date">Bitiş Tarihi: </string>
+
+    <!--Profile Photo Upload Dialog-->
+    <string name="profile_photo_upload_title">Profil fotoğrafı yükle</string>
+    <string name="profile_photo_upload_subtitle">Profil fotoğrafı yüklemek / güncellemek için aşağıdaki yöntemlerden birini seç.</string>
+    <string name="profile_photo_upload_problem">Profil Fotosu yüklenirken bir sorun oluştu, lütfen daha sonra tekrar deneyin.</string>
+    <string name="from_gallery">Galeriden Seç</string>
+    <string name="select_photo_from_gallery">Galeriden Fotoğraf Ekle</string>
+    <string name="send_my_current_location">Mevcut Lokasyonumu Ekle</string>
+    <string name="shoot_photo_for_attachment">Yeni Fotoğraf Ekle</string>
+    <string name="shoot_photo">Fotoğraf Çek</string>
+    <string name="add_photo_to_work_title">Fotoğraf eklemek ister misin?</string>
+    <string name="add_photo_to_work_button">Fotoğraf ekle</string>
+    <string name="warning_photo_upload_profile">Profil fotoğrafı ekleyebilmek ya da güncelleyebilmek için çekilen fotoğrafı SD kartınıza yüklememize izin verin.</string>
+    <string name="title_activity_event">EventActivity</string>
 
 </resources>

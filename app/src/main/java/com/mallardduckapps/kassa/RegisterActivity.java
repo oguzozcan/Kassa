@@ -3,6 +3,7 @@ package com.mallardduckapps.kassa;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -10,6 +11,8 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,30 +28,46 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
+import com.google.gson.Gson;
 import com.mallardduckapps.kassa.busevents.AuthEvents;
+import com.mallardduckapps.kassa.busevents.MiscEvents;
+import com.mallardduckapps.kassa.fragments.DialogPhotoUpload;
+import com.mallardduckapps.kassa.objects.Person;
+import com.mallardduckapps.kassa.objects.Picture;
 import com.mallardduckapps.kassa.objects.RegisterUser;
 import com.mallardduckapps.kassa.objects.User;
+import com.mallardduckapps.kassa.services.MiscServices;
+import com.mallardduckapps.kassa.services.PhotoSelectorHelper;
 import com.mallardduckapps.kassa.utils.Constants;
 import com.mallardduckapps.kassa.utils.KassaUtils;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class RegisterActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class RegisterActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor>, PhotoSelectorHelper.PhotoSelector {
 
     private AutoCompleteTextView mEmailView;
-    private EditText mNameView;
-    private EditText mLastNameView;
+    private AutoCompleteTextView mNameView;
+    private AutoCompleteTextView mLastNameView;
     private View mProgressView;
     private View mLoginFormView;
+    private String photoUrl = null;
 
     @Override
     protected void setTag() {
@@ -62,8 +82,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-        mNameView = (EditText) findViewById(R.id.name);
-        mLastNameView = (EditText) findViewById(R.id.surname) ;
+        mNameView = (AutoCompleteTextView) findViewById(R.id.name);
+        mLastNameView = (AutoCompleteTextView) findViewById(R.id.surname) ;
 
         Button mEmailSignInButton = (Button) findViewById(R.id.register_button);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +114,7 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         addImageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                openAttachmentMenu();
             }
         });
     }
@@ -139,19 +159,6 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             requestPermissions(new String[]{READ_CONTACTS}, Constants.MY_PERMISSIONS_READ_CONTACTS);
         }
         return false;
-    }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == Constants.MY_PERMISSIONS_READ_CONTACTS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete();
-            }
-        }
     }
 
     /**
@@ -206,11 +213,17 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            Log.d(TAG, "SEND Register REQUEST email: " + email);
+            Log.d(TAG, "SEND Register REQUEST email: " + email + " firstName: " + name + " - lastName: " + surname);
+            Log.d(TAG, "TOKEN: " + app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY));
             RegisterUser registerUser = new RegisterUser();
             registerUser.setName(name);
             registerUser.setSurname(surname);
             registerUser.setEmail(email);
+            if(photoUrl != null){
+                registerUser.setPhotoUrl(photoUrl);
+            }
+            Gson gson = new Gson();
+            Log.d(TAG, "JSON : " +gson.toJson(registerUser));
             app.getBus().post(new AuthEvents.RegisterRequest(registerUser));
         }
     }
@@ -297,7 +310,6 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             emails.add(cursor.getString(ProfileQuery.ADDRESS));
             cursor.moveToNext();
         }
-
         addEmailsToAutoComplete(emails);
     }
 
@@ -311,10 +323,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(RegisterActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
         mEmailView.setAdapter(adapter);
     }
-
 
     private interface ProfileQuery {
         String[] PROJECTION = {
@@ -376,6 +386,7 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
                 //TODO what to do with user
                 if (user != null) {
                     String accessToken = app.getDataSaver().getString(Constants.ACCESS_TOKEN_KEY);
+                    app.saveUser(user);
                     passToMainActivity(accessToken);
 //                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
 //                    startActivity(intent);
@@ -384,6 +395,152 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
             }
         }
     }
+
+    @Subscribe
+    public void onImageUploaded(MiscEvents.PostProfilePicResponse response){
+        Log.d(TAG, "ON IMAGE UPLOADED");
+        if(response != null){
+            Person person = response.getPerson().body();
+            String postFix = person.getPhotoUrl();
+            if(postFix != null){
+                //TODO show image
+                showImage(postFix);
+            }
+        }
+    }
+
+    private void showImage(String imageSource) {
+        if (imageSource == null) {
+            return;
+        }
+        try {
+            ImageView profileThumbnail = (ImageView)findViewById(R.id.profileThumbnail);
+            ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
+            switcher.setDisplayedChild(1);
+            String source = Constants.PHOTO_BASE_URL + imageSource;
+            Picasso.with(getApplicationContext()).load(source).into(profileThumbnail); // .placeholder(R.drawable.default_users_7)
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openAttachmentMenu() {
+        Log.d(TAG, "OPEN ATTACHMENT MENU");
+        if (app.requestCardWritePermission(this, getString(R.string.warning_photo_upload_profile))) {
+            final DialogPhotoUpload uploadDialog = DialogPhotoUpload.newInstance();
+            //uploadDialog.setTargetFragment(UserProfileFragment.this, Constants.UPLOAD_PHOTO_DIALOG);
+            uploadDialog.show(getSupportFragmentManager(), "uploadDialog");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case Constants.MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the contacts-related task you need to do.
+                    app.isWriteToSdCardPermissionGranted = true;
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            // EXECUTE ACTIONS (LIKE FRAGMENT TRANSACTION ETC.)
+                            final DialogPhotoUpload uploadDialog = DialogPhotoUpload.newInstance();
+                            //uploadDialog.setTargetFragment(UserProfileFragment.this, Constants.UPLOAD_PHOTO_DIALOG);
+                            uploadDialog.show(getSupportFragmentManager(), "uploadDialog");
+                        }
+                    }, 10);
+                } else {
+                    // permission denied, boo! Disable the functionality that depends on this permission.
+                    app.isWriteToSdCardPermissionGranted = false;
+                }
+                break;
+            }
+            case Constants.MY_PERMISSIONS_READ_CONTACTS: {
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    populateAutoComplete();
+                }
+            }
+        }
+    }
+
+    private PhotoSelectorHelper helper;
+
+    @Override
+    public void uploadMethodSelected(int status) {
+        Log.d(TAG, "UPLOAD METHOD SELECTED : " + status);
+        //if (attached && getActivity() != null) {
+        Log.d(TAG, "HELPER CREATED for photo upload");
+        helper = new PhotoSelectorHelper(this);
+        switch (status) {
+            case PhotoSelectorHelper.REQ_CAMERA:
+                helper.takePicture();
+                break;
+            case PhotoSelectorHelper.REQ_PICK_IMAGE:
+                helper.openGallery();
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "REQUEST CODE: " + requestCode);
+        Log.d(TAG, "RESULT CODE: " + resultCode);
+        if (resultCode != Activity.RESULT_OK) {
+            //TODO handle error
+            return;
+        }
+        switch (requestCode) {
+            case PhotoSelectorHelper.REQ_PICK_IMAGE:
+                try {
+                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                    FileOutputStream fileOutputStream = new FileOutputStream(helper.createImageFile());
+                    PhotoSelectorHelper.copyStream(inputStream, fileOutputStream);
+                    fileOutputStream.close();
+                    inputStream.close();
+                } catch (Exception e) {
+                    Log.e(TAG, "Error while creating temp file", e);
+                }
+                break;
+            case PhotoSelectorHelper.REQ_CAMERA:
+                break;
+        }
+
+        if (requestCode == PhotoSelectorHelper.REQ_CAMERA || requestCode == PhotoSelectorHelper.REQ_PICK_IMAGE) {
+            Log.d(TAG, "SEND PHOTO - REQUEST CODE : " + requestCode);
+            if (helper != null) {
+                byte[] imageEncoded = helper.initPhotoForUpload();
+                String encodedImage = Base64.encodeToString(imageEncoded, Base64.DEFAULT);
+                Log.d(TAG, "ENCODED IMAGE: " + encodedImage);
+                photoUrl = encodedImage;
+                Bitmap bmp = BitmapFactory.decodeByteArray(imageEncoded, 0, imageEncoded.length);
+                CircleImageView image = (CircleImageView) findViewById(R.id.profileThumbnail);
+                image.setVisibility(View.VISIBLE);
+                ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
+                switcher.setDisplayedChild(1);
+                image.setImageBitmap(bmp);
+
+                //TODO
+               // app.getBus().post(new MiscEvents.PostProfilePicRequest(new Picture(encodedImage, "jpeg")));
+                //sendMessage(null, Message.MESSAGE_TYPE_IMAGE, encodedImage);
+//                Log.d(TAG, "ON ACTIVITY RESULT IN FRAGMENT : START PHOTO UPLOAD TASK");
+//                //loadingLayout.setVisibility(View.VISIBLE);
+            }
+            return;
+        }
+        Log.d(TAG, "ON ACTIVITY RESULT IN FRAGMENT : " + requestCode);
+        super.onActivityResult(requestCode, resultCode, data);
+//        if (userUpdatePart != Constants.UPDATE_USER_PROFILE_PAGE) {
+//            useLoader();
+//        } else {
+//            fillUserInfo(rootView, getActivity().getAssets());
+//            //addCreditCardData();
+//            //updateProfileInfo(me.getUserInfo());
+//            switcher.setDisplayedChild(1);
+//        }
+    }
+
 }
 
 

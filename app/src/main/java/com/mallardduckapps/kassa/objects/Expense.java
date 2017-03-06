@@ -10,62 +10,24 @@ import java.util.ArrayList;
 /**
  * Created by oguzemreozcan on 28/07/16.
  */
-public class Expense implements Parcelable {
+public class Expense extends BaseSwipeListItem implements Parcelable {
 
-    @SerializedName("Id")
-    private int id;
-    @SerializedName("UserId")
-    private int userId;
-    @SerializedName("Name")
-    private String name;
-    @SerializedName("Price")
+    @SerializedName("price")
     private double price;
-    @SerializedName("CurrencyId")
+    @SerializedName("currency_id")
     private int currencyId;
-    @SerializedName("Recurring")
+    @SerializedName("recurring")
     private boolean isRecurring;
-    @SerializedName("DueDate")
+    @SerializedName("due_date")
     private String dueDate;
-    @SerializedName("ReminderDate")
+    @SerializedName("reminder_date")
     private String reminderDate;
-    @SerializedName("CategoryId")
-    private int categoryId;
-    @SerializedName("SubCategoryId")
-    private int subCategoryId;
-    @SerializedName("PhotoUrl")
+    @SerializedName("photo_url")
     private String photoUrl;
-//    @SerializedName("TypeId")
-//    private int typeId;
-    @SerializedName("CreateDate")
-    private String createDate;
-    @SerializedName("ExpenseRecurringType")
+    @SerializedName("expense_recurring_type")
     private int recurringType;
-    @SerializedName("ExpenseCoOwnerModels")
+    @SerializedName("expense_co_owner_models")
     ArrayList<CoOwner> coOwners;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public double getPrice() {
         return price;
@@ -107,44 +69,12 @@ public class Expense implements Parcelable {
         this.reminderDate = reminderDate;
     }
 
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public int getSubCategoryId() {
-        return subCategoryId;
-    }
-
-    public void setSubCategoryId(int subCategoryId) {
-        this.subCategoryId = subCategoryId;
-    }
-
     public String getPhotoUrl() {
         return photoUrl;
     }
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
-    }
-
-//    public int getTypeId() {
-//        return typeId;
-//    }
-//
-//    public void setTypeId(int typeId) {
-//        this.typeId = typeId;
-//    }
-
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
     }
 
     public int getRecurringType() {
@@ -170,19 +100,13 @@ public class Expense implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeInt(this.userId);
-        dest.writeString(this.name);
+
         dest.writeDouble(this.price);
         dest.writeInt(this.currencyId);
         dest.writeByte(this.isRecurring ? (byte) 1 : (byte) 0);
         dest.writeString(this.dueDate);
         dest.writeString(this.reminderDate);
-        dest.writeInt(this.categoryId);
-        dest.writeInt(this.subCategoryId);
         dest.writeString(this.photoUrl);
-//        dest.writeInt(this.typeId);
-        dest.writeString(this.createDate);
         dest.writeInt(this.recurringType);
         dest.writeList(this.coOwners);
     }
@@ -191,19 +115,13 @@ public class Expense implements Parcelable {
     }
 
     protected Expense(Parcel in) {
-        this.id = in.readInt();
-        this.userId = in.readInt();
-        this.name = in.readString();
+
         this.price = in.readDouble();
         this.currencyId = in.readInt();
         this.isRecurring = in.readByte() != 0;
         this.dueDate = in.readString();
         this.reminderDate = in.readString();
-        this.categoryId = in.readInt();
-        this.subCategoryId = in.readInt();
         this.photoUrl = in.readString();
-//        this.typeId = in.readInt();
-        this.createDate = in.readString();
         this.recurringType = in.readInt();
         this.coOwners = new ArrayList<CoOwner>();
         in.readList(this.coOwners, CoOwner.class.getClassLoader());

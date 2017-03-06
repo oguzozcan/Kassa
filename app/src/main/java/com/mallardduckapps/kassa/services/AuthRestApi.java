@@ -1,6 +1,5 @@
 package com.mallardduckapps.kassa.services;
 
-import com.mallardduckapps.kassa.objects.Expense;
 import com.mallardduckapps.kassa.objects.RegisterUser;
 import com.mallardduckapps.kassa.objects.Session;
 import com.mallardduckapps.kassa.objects.User;
@@ -29,18 +28,18 @@ public class AuthRestApi {
     }
 
     public interface RegisterRestApi{
-        @POST("account/register")
-        Call<User> registerUser(@Body RegisterUser registerJsonBody);
+        @POST(Constants.REGISTER_POSTFIX)
+        Call<User> registerUser(@Header("Authorization") String token, @Header("client_info") String clientInfo, @Body RegisterUser registerJsonBody);
     }
 
 
     public interface GetConfirmationCode{
-        @GET("account/confirmationCode/" + "{phoneNumber}")
+        @GET(Constants.CONFIRMATION_POSTFIX + "{phoneNumber}")
         Call<Void> getConfirmationCode(@Path("phoneNumber") String phoneNumber);
     }
 
     public interface PostConfirmationCode{
-        @POST("account/confirmationCode/" + "{phoneNumber}")
+        @POST(Constants.CONFIRMATION_POSTFIX + "{phoneNumber}")
         Call<Session> getAppSession(@Path("phoneNumber") String phoneNumber, @Query("confirmationCode") String confirmationCode);
     }
 }

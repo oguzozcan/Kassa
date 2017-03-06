@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="event_type_names">
+        <item>Yeme İçme</item>
+        <item>Müze</item>
+        <item>Sinema</item>
+        <item>Konser</item>
+        <item>Parti</item>
+        <item>Tatil</item>
+        <item>Tiyatro</item>
+        <item>Diğer</item>
+    </string-array>
+
+    <string-array name="daily_type_names">
+        <item>Alışveriş</item>
+        <item>Elektronik</item>
+        <item>Hobi</item>
+        <item>Kişisel Bakım</item>
+        <item>Market</item>
+        <item>Oyun</item>
+        <item>Ulaşım</item>
+        <item>Diğer</item>
+    </string-array>
+
+    <integer-array name="event_type_images">
+        <item>@drawable/yeme_icme</item>
+        <item>@drawable/muze</item>
+        <item>@drawable/sinema</item>
+        <item>@drawable/konser</item>
+        <item>@drawable/parti</item>
+        <item>@drawable/tatil</item>
+        <item>@drawable/tiyatro</item>
+        <item>@drawable/gunluk_diger_icon</item>
+    </integer-array>
+
+    <integer-array name="daily_type_images">
+        <item>@drawable/alisveris</item>
+        <item>@drawable/elektronik</item>
+        <item>@drawable/hobi</item>
+        <item>@drawable/kisisel_bakim</item>
+        <item>@drawable/market</item>
+        <item>@drawable/oyun</item>
+        <item>@drawable/ulasim</item>
+        <item>@drawable/gunluk_diger_icon</item>
+    </integer-array>
+
+    <integer-array name="event_type_ids">
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+    </integer-array>
+
+    <integer-array name="daily_type_ids">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </integer-array>
+
+</resources>

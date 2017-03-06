@@ -70,7 +70,7 @@ public class KassaUtils {
         }
         try {
             if(output != null)
-            message  =  new JSONObject(new String(output.toByteArray())).getString("Message");
+            message  =  new JSONObject(new String(output.toByteArray())).getString("message");
         } catch (JSONException e) {
             e.printStackTrace();
         }

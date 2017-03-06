@@ -10,15 +10,15 @@ import com.google.gson.annotations.SerializedName;
  */
 public class CoOwner implements Parcelable {
 
-    @SerializedName("Id")
+    @SerializedName("id")
     private int id;
-    @SerializedName("UserId")
-    private int userId;
-    @SerializedName("CreateDate")
+    @SerializedName("phone_number")
+    private String phoneNumber;
+    @SerializedName("create_date")
     private String createDate;
-    @SerializedName("UserPublicProfile")
+    @SerializedName("user_public_profile")
     private Person person;
-    @SerializedName("Debt")
+    @SerializedName("debt")
     private double debt;
 
     public int getId() {
@@ -29,12 +29,12 @@ public class CoOwner implements Parcelable {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getCreateDate() {
@@ -69,7 +69,7 @@ public class CoOwner implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeInt(this.userId);
+        dest.writeString(this.phoneNumber);
         dest.writeString(this.createDate);
         dest.writeParcelable(this.person, flags);
         dest.writeDouble(this.debt);
@@ -80,7 +80,7 @@ public class CoOwner implements Parcelable {
 
     protected CoOwner(Parcel in) {
         this.id = in.readInt();
-        this.userId = in.readInt();
+        this.phoneNumber = in.readString();
         this.createDate = in.readString();
         this.person = in.readParcelable(Person.class.getClassLoader());
         this.debt = in.readDouble();
